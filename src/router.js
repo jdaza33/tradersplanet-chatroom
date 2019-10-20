@@ -1,17 +1,17 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Chatroom from './components/Chatroom.vue'
+import Chatroom from "./modules/chatroom/views/Chatroom";
+import Signin from "./modules/user/views/Signin";
 
-Vue.use(Router)
+const routes = [
+  {
+    path: "/",
+    name: "signin",
+    component: Signin
+  },
+  {
+    path: "/chatroom",
+    name: "chatroom",
+    component: Chatroom
+  }
+];
 
-export default new Router({
-  mode: 'history',
-  base: process.env.VUE_APP_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'chatroom',
-      component: Chatroom
-    }
-  ]
-})
+export default routes;
