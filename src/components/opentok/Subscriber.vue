@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import OT from '@opentok/client';
+import OT from "@opentok/client";
 export default {
   name: "subscriber",
   props: {

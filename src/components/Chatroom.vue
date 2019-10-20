@@ -21,15 +21,11 @@
 import OT from "@opentok/client";
 import Subscriber from "./opentok/Subscriber";
 
-const errorHandler = err => {
-  console.log(err);
-};
-
 export default {
   components: { Subscriber },
   data() {
     return {
-      apiKey: '46438732',
+      apiKey: "46438732",
       token:
         "T1==cGFydG5lcl9pZD00NjQzODczMiZzaWc9MGM2ZDE3NjRkZjY1ZDMyYTYzMTE0OGM2ZmFlM2I2MTg3MzYyNGQ5YzpzZXNzaW9uX2lkPTJfTVg0ME5qUXpPRGN6TW41LU1UVTNNVEUyTnpJeE1UUXdOSDVYU3k5eVVWbDVXRGx0V2tvelJrZHJabkE0UlZWaFIyOS1mZyZjcmVhdGVfdGltZT0xNTcxMTY3MjI3Jm5vbmNlPTAuMzIwNjIxNjA4MzM2NzAxMDYmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTU3Mzc2MjgyNyZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ==",
       sessionId:

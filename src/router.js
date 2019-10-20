@@ -1,11 +1,11 @@
 import Chatroom from "./modules/chatroom/views/Chatroom";
-import Signin from "./modules/user/views/Signin";
+import AuthenticationBoard from "./modules/user/views/AuthenticationBoard";
 
 const routes = [
   {
     path: "/",
-    name: "signin",
-    component: Signin
+    name: "AuthenticationBoard",
+    component: AuthenticationBoard
   },
   {
     path: "/chatroom",
