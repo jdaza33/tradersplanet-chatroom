@@ -1,10 +1,13 @@
 <template>
-  <div class="container__one">
+  <div
+    v-if="!isMobile || (isMobile && forgotRoute)"
+    class="container__one md-layout-item md-medium-size-100 md-large-size-50 md-small-size-100 md-xsmall-size-100"
+  >
     <img class="round" src="../../../assets/img/round.png" alt />
     <div class="container__one__logo">
       <img class="logo" src="../../../assets/img/gray_logo.png" alt />
     </div>
-    <div class="container__one__content">
+    <div class="container__one__content" v-bind:class="{ mobile: isMobile }">
       <div class="container__one__content__section_one">
         <p class="container__one__content__section_one__title">
           <span>¡Empecemos!</span>
@@ -108,6 +111,7 @@ import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   name: "Signup",
+  props: ["forgotRoute"],
   mixins: [validationMixin],
   data: () => ({
     form: {
@@ -118,7 +122,8 @@ export default {
     },
     lastUser: null,
     userSaved: false,
-    sending: false
+    sending: false,
+    isMobile: false
   }),
   validations: {
     form: {
@@ -159,8 +164,12 @@ export default {
     },
 
     moveElement() {
-      this.$emit("toRight", {});
-      this.clearForm();
+      if (!this.isMobile) {
+        this.$emit("toRight", {});
+        this.clearForm();
+        return;
+      }
+      this.$emit("changeView", this.isMobile);
     },
     registerUser() {
       this.sending = true;
@@ -178,25 +187,38 @@ export default {
       if (!this.$v.$invalid) {
         this.registerUser();
       }
+    },
+    onResize() {
+      if (window.innerWidth <= 1280) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
     }
+  },
+  mounted() {
+    this.onResize();
+    window.addEventListener("resize", this.onResize);
   }
 };
 </script>
 <style lang="scss" scoped>
 .container__one {
-  width: 50%;
   background: #fff;
   position: relative;
-  padding-left: 7rem;
+  height: 100vh;
+  padding-left: 5% !important;
 
+  .mobile {
+    width: 95%;
+  }
   &__content {
-    width: 30rem;
+    width: 60%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    margin-top: 5rem;
-    height: 80%;
+    height: 90%;
 
     &__section_one {
       height: 8rem;
