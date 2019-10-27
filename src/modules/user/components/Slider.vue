@@ -1,5 +1,6 @@
 <template>
   <div class="container__two">
+    <div class="black_background"></div>
     <div class="container__two__header">
       <div class="container__two__header__links">
         <a href>Inicio</a>
@@ -27,6 +28,18 @@ export default {
 .container__two {
   width: 50%;
   background-image: url("../../../assets/img/trade.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 2;
+
+  .black_background {
+    background-color: #000;
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    opacity: 0.5;
+  }
 
   &__header {
     color: #fff;

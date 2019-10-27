@@ -1,19 +1,22 @@
 <template>
-  <div>
-    <h1>Chatroom</h1>
-    <button @click="initializeSession">Habilitar</button>
-    <div id="videos">
-      <!-- <div id="subscriber"></div> -->
-      <div id="subscribers" v-for="(stream, index) in streams" :key="index">
-        <subscriber
-          @error="errorHandler"
-          :opts="configSubscriber"
-          :stream="stream"
-          :session="session"
-        ></subscriber>
+  <div id="chatroom">
+    <div class="streaming">
+      <h1>Chatroom</h1>
+      <button @click="initializeSession">Habilitar</button>
+      <div id="videos">
+        <!-- <div id="subscriber"></div> -->
+        <div id="subscribers" v-for="(stream, index) in streams" :key="index">
+          <subscriber
+            @error="errorHandler"
+            :opts="configSubscriber"
+            :stream="stream"
+            :session="session"
+          ></subscriber>
+        </div>
+        <div id="publisher"></div>
       </div>
-      <div id="publisher"></div>
     </div>
+    <div class="chat"></div>
   </div>
 </template>
 

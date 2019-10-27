@@ -1,7 +1,9 @@
 <template>
   <router-view />
 </template>
-<style  lang="scss">
+<style lang="scss">
+@import "./assets/scss/_variables.scss";
+
 * {
   margin: 0;
   padding: 0;
@@ -16,11 +18,11 @@ a {
 
 .md-field {
   background-color: #ffffff !important;
-  border: 1.5px solid #aaaaaa;
+  border: 1.5px solid $secondary-color;
   padding: 1rem;
-  -webkit-box-shadow: 0px 17px 39px -10px rgba(0, 0, 0, 0.47);
-  -moz-box-shadow: 0px 17px 39px -10px rgba(0, 0, 0, 0.47);
-  box-shadow: 0px 17px 39px -10px rgba(0, 0, 0, 0.47);
+  -webkit-box-shadow: 0px 17px 39px -10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 17px 39px -10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 17px 39px -10px rgba(0, 0, 0, 0.2);
 
   label {
     padding-left: 0.3rem;
@@ -41,7 +43,7 @@ a:hover {
 }
 
 :root {
-  --md-theme-default-primary: gray !important;
+  --md-theme-default-primary: #6c63ff !important;
   --md-theme-default-accent: #ff5252;
   --md-theme-default-theme: light;
 }
@@ -54,28 +56,28 @@ a:not(.md-button):hover {
   text-decoration: none !important;
 }
 .md-field.md-theme-default.md-focused label {
-  color: gray !important;
+  color: $primary-color !important;
 }
 
 .btn_one {
-  height: 3rem;
-  font-weight: 100;
-  width: 10rem;
-  background: #000;
+  height: 3rem !important;
+  font-weight: 100 !important;
+  width: 10rem !important;
+  background: $primary-color !important;
   text-transform: unset;
   color: #fff !important;
   font-size: 16px;
 }
 
 .btn_two {
-  height: 3rem;
-  font-weight: 100;
-  width: 10rem;
+  height: 3rem !important;
+  font-weight: 100 !important;
+  width: 10rem !important;
   background-color: #fff !important;
-  border: 1.5px solid #aaaaaa;
-  text-transform: unset;
-  color: #aaaaaa !important;
-  font-size: 16px;
+  border: 1.5px solid $secondary-color !important;
+  text-transform: unset !important;
+  color: $secondary-color !important;
+  font-size: 16px !important;
   &:hover {
     background-color: #fff !important;
   }

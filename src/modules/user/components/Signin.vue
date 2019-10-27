@@ -1,13 +1,15 @@
 <template>
   <div
+    id="content"
     v-if="signinRoute"
     class="container__one md-layout-item md-medium-size-100 md-large-size-50 md-small-size-100 md-xsmall-size-100"
   >
+    <Loader v-if="loader" />
     <img class="round" src="../../../assets/img/round.png" alt />
     <div class="container__one__logo">
       <img class="logo" src="../../../assets/img/gray_logo.png" alt />
     </div>
-    <div class="container__one__content" v-bind:class="{ mobile: isMobile }">
+    <div id="formLogin" class="container__one__content" v-bind:class="{ mobile: isMobile }">
       <div class="container__one__content__section_one">
         <p class="container__one__content__section_one__title">
           Traders
@@ -95,8 +97,12 @@ export default {
     userSaved: false,
     sending: false,
     rememberme: null,
-    isMobile: false
+    isMobile: false,
+    loader: false
   }),
+  components: {
+    Loader: () => import("../../shared/components/Loader")
+  },
   validations: {
     form: {
       email: {
@@ -126,18 +132,37 @@ export default {
     },
     saveUser() {
       this.sending = true;
+      this.loader = true;
+      //SI FALLA
+      // window.setTimeout(() => {
+      // this.Loader = false;
+      // window.setTimeout(() => {
+      //   this.disableAnimations();
+      //   this.sending = false;
+      //   // this.$router.push("dashboard");
+      // }, 1000);
+      // }, 3000);
 
-      // Instead of this timeout, here you can call your API
+      // SI NO FALLA
       window.setTimeout(() => {
-        this.lastUser = `${this.form.email}`;
-        this.clearForm();
-      }, 1500);
+        this.Loader = false;
+        window.setTimeout(() => {
+          this.sending = false;
+          this.$router.push("dashboard");
+        }, 1000);
+      }, 3000);
     },
     validateUser() {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        this.saveUser();
+        if (!this.isMobile) {
+          this.animateElements();
+          this.clearForm();
+        }
+        window.setTimeout(() => {
+          this.saveUser();
+        }, 2000);
       }
     },
     moveElement() {
@@ -154,6 +179,41 @@ export default {
       } else {
         this.isMobile = false;
       }
+    },
+    animateElements() {
+      const form = document.getElementById("formLogin");
+      const content = document.getElementById("content");
+      const logo = document.querySelector(".logo");
+      const container = document.querySelector(".round");
+      logo.classList.add("opacity");
+      container.classList.add("opacity");
+      form.classList.add("animate_dissolve");
+      window.setTimeout(() => {
+        content.classList.add("animate_extend");
+      }, 1000);
+    },
+    disableAnimations() {
+      this.loader = false;
+      const form = document.getElementById("formLogin");
+      const content = document.getElementById("content");
+      const logo = document.querySelector(".logo");
+      const container = document.querySelector(".round");
+      content.classList.add("animate_dismiss");
+      logo.classList.remove("opacity");
+      logo.classList.add("opacity_lose");
+      container.classList.remove("opacity");
+      container.classList.add("opacity_lose");
+      window.setTimeout(() => {
+        content.classList.remove("animate_extend");
+        form.classList.remove("animate_dissolve");
+        form.classList.add("animate_appaer");
+        window.setTimeout(() => {
+          form.classList.remove("animate_appaer");
+          container.classList.remove("opacity_lose");
+          logo.classList.remove("opacity_lose");
+          content.classList.remove("animate_dismiss");
+        }, 1000);
+      }, 1000);
     }
   },
   mounted() {
@@ -163,6 +223,28 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "../../../assets/scss/_variables.scss";
+
+.animate_extend {
+  z-index: 3;
+  min-width: 100% !important;
+  transition: 1s ease-in-out;
+}
+
+.animate_dismiss {
+  z-index: 3;
+  min-width: 50% !important;
+  transition: 1s ease-in-out;
+}
+
+.opacity_lose {
+  animation: show 1s forwards;
+}
+
+.opacity {
+  animation: hide 1s forwards;
+}
+
 .container__one {
   background: #fff;
   position: relative;
@@ -179,6 +261,7 @@ export default {
     flex-direction: column;
     justify-content: space-around;
     height: 90%;
+    transform: translateY(0rem);
 
     &__section_one {
       height: 8rem;
@@ -187,14 +270,14 @@ export default {
       justify-content: space-between;
       &__title {
         font-size: 3rem;
-        color: #aaaaaa;
+        color: $secondary-color;
         span {
-          color: #000;
+          color: $primary-color;
           font-weight: 500;
         }
       }
       &__subtitle {
-        color: #aaaaaa;
+        color: $secondary-color;
         font-size: 1.1rem;
       }
     }
@@ -222,9 +305,9 @@ export default {
     font-weight: 100;
     width: 10rem;
     background-color: #fff !important;
-    border: 1.5px solid #aaaaaa;
+    border: 1.5px solid $secondary-color;
     text-transform: unset;
-    color: #aaaaaa !important;
+    color: $secondary-color !important;
     font-size: 16px;
     &:hover {
       background-color: #fff !important;
@@ -253,6 +336,60 @@ export default {
     height: 4rem;
     padding-top: 1rem;
     opacity: 0.5;
+  }
+
+  .animate_dissolve {
+    animation: dissolve 1s forwards;
+  }
+  .animate_appaer {
+    animation: appaer 1s forwards;
+  }
+
+  @keyframes dissolve {
+    from {
+      transform: translateY(0rem);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(10rem);
+      opacity: 0;
+    }
+  }
+  @keyframes appaer {
+    from {
+      transform: translateY(10rem);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0rem);
+      opacity: 1;
+    }
+  }
+
+  @keyframes max {
+    from {
+      min-width: 50% !important;
+    }
+    to {
+      min-width: 100% !important;
+    }
+  }
+
+  @keyframes hide {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
 </style>

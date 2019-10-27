@@ -1,13 +1,14 @@
 <template>
-  <div class="container md-layout md-gutter">
+  <div id="container" class="container md-layout md-gutter">
     <Signin
+      v-if="showLogin"
       v-on:toLeft="moveElementToTheLeft"
       v-on:changeView="navigateToRegister"
       v-bind:signinRoute="signinRoute"
     />
     <Slider v-if="!isMobile" id="element" class="container__element" />
     <Signup
-      v-if="showForgot"
+      v-if="showRegister"
       v-on:toRight="moveElementToTheRight"
       v-on:changeView="navigateToLogin"
       v-bind:forgotRoute="forgotRoute"
@@ -24,7 +25,8 @@ export default {
     forgotRoute: false,
     signinRoute: true,
     isMobile: false,
-    showForgot: false
+    showRegister: false,
+    showLogin: true
   }),
   components: {
     Signin,
@@ -33,18 +35,25 @@ export default {
   },
   methods: {
     moveElementToTheLeft() {
+      const container = document.getElementById("container");
       const element = document.getElementById("element");
       element.classList.add("move_to_left");
       element.classList.remove("move_to_right");
-      this.showForgot = true;
+      this.showRegister = true;
+      window.setTimeout(() => {
+        this.showLogin = false;
+        container.classList.add("flex-end");
+      }, 1100);
     },
     moveElementToTheRight() {
       const element = document.getElementById("element");
+      const container = document.getElementById("container");
       element.classList.remove("move_to_left");
       element.classList.add("move_to_right");
-
+      this.showLogin = true;
       window.setTimeout(() => {
-        this.showForgot = false;
+        this.showRegister = false;
+        container.classList.remove("flex-end");
       }, 1100);
     },
     navigateToRegister(event) {
@@ -71,6 +80,9 @@ export default {
 </script>
 
 <style lang="scss">
+.flex-end {
+  justify-content: flex-end;
+}
 .container {
   height: 100vh;
   width: 100vw;
