@@ -203,10 +203,8 @@ export default {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        if (!this.isMobile) {
-          this.animateElements();
-          this.clearForm();
-        }
+        this.animateElements();
+        this.clearForm();
         window.setTimeout(() => {
           this.registerUser();
         }, 2000);
@@ -256,6 +254,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.forgotRoute);
     this.onResize();
     window.addEventListener("resize", this.onResize);
   }

@@ -156,10 +156,8 @@ export default {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        if (!this.isMobile) {
-          this.animateElements();
-          this.clearForm();
-        }
+        this.animateElements();
+        this.clearForm();
         window.setTimeout(() => {
           this.saveUser();
         }, 2000);

@@ -11,7 +11,7 @@
           <div>
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('className')">
-                <label for="className">Correo electronico</label>
+                <label for="className">Nombre de la clase</label>
                 <md-input
                   type="className"
                   name="className"
@@ -79,6 +79,7 @@ export default {
       this.sending = true;
       window.setTimeout(() => {
         this.clearForm();
+        this.$router.push("chatroom");
       }, 1500);
     },
     validateClass() {
@@ -97,6 +98,7 @@ export default {
 .box {
   height: 20rem;
   width: 35rem;
+  margin: 1rem;
   border-radius: 10px;
   padding: 1rem 2rem;
   background: #ffff;

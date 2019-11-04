@@ -4,9 +4,24 @@
 <style lang="scss">
 @import "./assets/scss/_variables.scss";
 
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: #fafafa;
+  border-radius: 27px;
+}
+::-webkit-scrollbar-thumb {
+  background: #6359ff;
+  border-radius: 27px;
+}
 * {
   margin: 0;
   padding: 0;
+  font-family: "Rubik", sans-serif;
+}
+h1,
+p {
   font-family: "Rubik", sans-serif;
 }
 

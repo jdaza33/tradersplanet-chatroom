@@ -1,14 +1,14 @@
 <template>
   <div id="container" class="container md-layout md-gutter">
     <Signin
-      v-if="showLogin"
+      v-if="signinRoute || showLogin"
       v-on:toLeft="moveElementToTheLeft"
       v-on:changeView="navigateToRegister"
       v-bind:signinRoute="signinRoute"
     />
     <Slider v-if="!isMobile" id="element" class="container__element" />
     <Signup
-      v-if="showRegister"
+      v-if="forgotRoute || showRegister"
       v-on:toRight="moveElementToTheRight"
       v-on:changeView="navigateToLogin"
       v-bind:forgotRoute="forgotRoute"
@@ -35,26 +35,30 @@ export default {
   },
   methods: {
     moveElementToTheLeft() {
-      const container = document.getElementById("container");
-      const element = document.getElementById("element");
-      element.classList.add("move_to_left");
-      element.classList.remove("move_to_right");
-      this.showRegister = true;
-      window.setTimeout(() => {
-        this.showLogin = false;
-        container.classList.add("flex-end");
-      }, 1100);
+      if (!this.isMobile) {
+        const container = document.getElementById("container");
+        const element = document.getElementById("element");
+        element.classList.add("move_to_left");
+        element.classList.remove("move_to_right");
+        this.showRegister = true;
+        window.setTimeout(() => {
+          this.showLogin = false;
+          container.classList.add("flex-end");
+        }, 1100);
+      }
     },
     moveElementToTheRight() {
-      const element = document.getElementById("element");
-      const container = document.getElementById("container");
-      element.classList.remove("move_to_left");
-      element.classList.add("move_to_right");
-      this.showLogin = true;
-      window.setTimeout(() => {
-        this.showRegister = false;
-        container.classList.remove("flex-end");
-      }, 1100);
+      if (!this.isMobile) {
+        const element = document.getElementById("element");
+        const container = document.getElementById("container");
+        element.classList.remove("move_to_left");
+        element.classList.add("move_to_right");
+        this.showLogin = true;
+        window.setTimeout(() => {
+          this.showRegister = false;
+          container.classList.remove("flex-end");
+        }, 1100);
+      }
     },
     navigateToRegister(event) {
       this.forgotRoute = event;
@@ -90,6 +94,7 @@ export default {
   flex-direction: row;
   position: relative;
   margin: 0 !important;
+  overflow: hidden;
   background-color: #ffff;
   &__element {
     position: absolute;
