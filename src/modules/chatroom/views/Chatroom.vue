@@ -15,7 +15,7 @@
           </p>
           <div class="live">En vivo</div>
         </div>
-        <div class="chatroom__streaming__header__section_2">#stock</div>
+        <div class="chatroom__streaming__header__section_2">Finalizar clase</div>
       </div>
       <div class="chatroom__streaming__video">
         <div @click="fullScreen" class="chatroom__streaming__video__fullscreen">
@@ -86,7 +86,7 @@ export default {
       configPublisher: {
         insertMode: "append",
         width: "500px",
-        height: "500px"
+        height: "550px"
       },
       configSubscriber: {
         insertMode: "append",
@@ -228,6 +228,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+.OT_fit-mode-cover .OT_video-element {
+    object-fit: contain !important;
+}
 .chatroom {
   display: flex;
 
@@ -303,13 +307,19 @@ export default {
         font-family: "Rubik", sans-serif;
         background-color: #6359ff;
         height: 2rem;
-        width: 5rem;
+        padding: 1rem;
+        cursor: pointer;
         font-size: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 5px;
         font-weight: 500;
+        transition: 1s;
+        &:hover{
+        background-color: #4840bd;
+        transition: 1s;
+        }
       }
     }
     &__footer {

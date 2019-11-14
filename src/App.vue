@@ -21,6 +21,10 @@
   font-family: "Rubik", sans-serif;
 }
 h1,
+td,
+th,
+tr,
+table,
 p {
   font-family: "Rubik", sans-serif;
 }
@@ -84,9 +88,38 @@ a:not(.md-button):hover {
   font-size: 16px;
 }
 
+.btn_three {
+  height: 2.5rem !important;
+  font-weight: 500 !important;
+  width: 6rem !important;
+  background: $third-color !important;
+  text-transform: unset;
+  color: #fff !important;
+  font-size: 16px;
+}
+
+.btn_public {
+  height: 2.5rem !important;
+  font-weight: 500 !important;
+  width: 6rem !important;
+  background: $background-color-public !important;
+  text-transform: unset;
+  color: $third-color !important;
+  font-size: 16px;
+}
+
+.btn_private {
+  height: 2.5rem !important;
+  font-weight: 500 !important;
+  width: 6rem !important;
+  background: $background-color-private !important;
+  text-transform: unset;
+  color: $primary-color !important;
+  font-size: 16px;
+}
 .btn_two {
   height: 3rem !important;
-  font-weight: 100 !important;
+  font-weight: 400 !important;
   width: 10rem !important;
   background-color: #fff !important;
   border: 1.5px solid $secondary-color !important;
