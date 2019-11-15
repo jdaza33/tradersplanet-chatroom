@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-bind:style="{ 'justify-content': !forgotRoute || !showRegister ? 'flex-start' : 'justify-content'}"
-    id="container"
-    class="container md-layout md-gutter"
-  >
+  <div id="container" class="container md-layout md-gutter">
     <Signin
       v-if="signinRoute || showLogin"
       v-on:toLeft="moveElementToTheLeft"
@@ -45,8 +41,11 @@ export default {
         element.classList.add("move_to_left");
         element.classList.remove("move_to_right");
         this.showRegister = true;
+        this.signupRoute = true;
         window.setTimeout(() => {
           this.showLogin = false;
+          this.signinRoute = false;
+          container.classList.remove("flex-start");
           container.classList.add("flex-end");
         }, 1100);
       }
@@ -58,9 +57,12 @@ export default {
         element.classList.remove("move_to_left");
         element.classList.add("move_to_right");
         this.showLogin = true;
+        this.signinRoute = true;
         window.setTimeout(() => {
           this.showRegister = false;
+          this.signupRoute = false;
           container.classList.remove("flex-end");
+          container.classList.add("flex-start");
         }, 1100);
       }
     },
@@ -81,6 +83,8 @@ export default {
     }
   },
   mounted() {
+    const container = document.getElementById("container");
+    container.classList.add("flex-start");
     this.onResize();
     window.addEventListener("resize", this.onResize);
   }
@@ -89,7 +93,10 @@ export default {
 
 <style lang="scss">
 .flex-end {
-  justify-content: flex-end;
+  justify-content: flex-end !important;
+}
+.flex-start {
+  justify-content: flex-start !important;
 }
 .container {
   height: 100vh;

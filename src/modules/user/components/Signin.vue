@@ -228,7 +228,7 @@ export default {
     }
   },
   mounted() {
-    this.login();
+    // this.login();
     this.onResize();
     window.addEventListener("resize", this.onResize);
   }
