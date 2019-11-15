@@ -1,5 +1,9 @@
 <template>
-  <div id="container" class="container md-layout md-gutter">
+  <div
+    v-bind:style="{ 'justify-content': !forgotRoute || !showRegister ? 'flex-start' : 'justify-content'}"
+    id="container"
+    class="container md-layout md-gutter"
+  >
     <Signin
       v-if="signinRoute || showLogin"
       v-on:toLeft="moveElementToTheLeft"
