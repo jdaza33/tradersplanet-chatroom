@@ -1,17 +1,17 @@
 import Base from "../Base";
 
-const resource = "/posts";
+const resource = "/users";
 
 export default {
-  get() {
-    return Base.get(`${resource}`);
+  get(id) {
+    return Base.get(`${resource}/${id}`);
   },
 
-  getPost(postId) {
-    return Base.get(`${resource}/${postId}`);
+  login(credentials) {
+    return Base.post(`${resource}/login`, credentials);
   },
 
-  createPost(payload) {
-    return Base.post(`${resource}`, payload);
+  register(payload) {
+    return Base.post(`${resource}/create`, payload);
   }
 };
