@@ -2,8 +2,13 @@
   <div>
     <div v-if="enable" class="container_dissolve"></div>
     <div class="container">
-      <img class="avatar" src="../../../assets/img/streaming.png" alt />
-      <div class="main">
+      <img
+        v-bind:style="{ height: isMobile ? '50% !important' : '90%'}"
+        class="avatar"
+        src="../../../assets/img/streaming.png"
+        alt
+      />
+      <div v-if="!isMobile" class="main">
         <div class="main__header">
           <p>
             Traders
@@ -55,9 +60,11 @@
                 <p>{{ item.date }}</p>
               </td>
               <td>
-                <md-button class="btn_private md-primary">{{
+                <md-button class="btn_private md-primary">
+                  {{
                   item.channel
-                }}</md-button>
+                  }}
+                </md-button>
               </td>
               <td>
                 <md-button class="btn_three md-primary">Unirse</md-button>
@@ -65,14 +72,52 @@
               <td>
                 <div class="buttons">
                   <img src="../../../assets/img/edit.png" alt="update" />
-                  <img
-                    src="../../../assets/img/delete-button.png"
-                    alt="delete"
-                  />
+                  <img src="../../../assets/img/delete-button.png" alt="delete" />
                 </div>
               </td>
             </tr>
           </table>
+        </div>
+      </div>
+      <div v-if="isMobile" class="main_mobile">
+        <p class="main_mobile__title">
+          Traders
+          <span>Planet</span>
+        </p>
+        <p class="main_mobile__subtitle">Webinarios ({{ webinars.length }})</p>
+
+        <md-button class="btn_one md-primary">Crear Webinario</md-button>
+        <div v-for="item in webinars" :key="item.id">
+          <div class="main_mobile__box">
+            <div class="main_mobile__box__item_1 item">Autor</div>
+            <div class="main_mobile__box__item_2 item">{{ item.author }}</div>
+
+            <div class="main_mobile__box__item_1 item">Nombre del webinario</div>
+            <div class="main_mobile__box__item_2 item">{{ item.className }}</div>
+
+            <div class="main_mobile__box__item_1 item">Descripción</div>
+            <div class="main_mobile__box__item_2 item">{{ item.description }}</div>
+
+            <div class="main_mobile__box__item_1 item">Fecha</div>
+            <div class="main_mobile__box__item_2 item">{{ item.date }}</div>
+
+            <div class="main_mobile__box__item_1 item">Canal</div>
+            <div class="main_mobile__box__item_2 item">
+              <md-button class="btn_private md-primary">
+                {{
+                item.channel
+                }}
+              </md-button>
+            </div>
+
+            <div class="main_mobile__box__item_1 item">
+              <md-button class="btn_three md-primary">Unirse</md-button>
+            </div>
+            <div class="main_mobile__box__icon item">
+              <img src="../../../assets/img/edit.png" alt="update" />
+              <img src="../../../assets/img/delete-button.png" alt="delete" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -81,11 +126,9 @@
 <script>
 export default {
   name: "dashboardClass",
-
   methods: {
     setInitAnimation() {
       window.setTimeout(() => {
-        console.log("init");
         const container = document.querySelector(".container_dissolve");
         container.classList.add("animate_min");
       }, 1000);
@@ -97,10 +140,9 @@ export default {
       if (window.innerWidth <= 1280) {
         console.log("active");
         this.isMobile = true;
-      } else {
-        this.isMobile = false;
-        console.log("deactive");
+        return;
       }
+      this.isMobile = false;
     }
   },
   data: () => ({
@@ -173,8 +215,6 @@ export default {
     bottom: 0;
   }
 
-  .low_font {
-  }
   .main {
     padding: 3rem 0rem;
     width: 90%;
@@ -261,6 +301,73 @@ export default {
             }
           }
         }
+      }
+    }
+  }
+
+  .main_mobile {
+    z-index: 1;
+    height: 100vh;
+    width: 100%;
+    padding: 4rem 1rem;
+    overflow-y: scroll;
+    &__title {
+      margin-bottom: 3.5rem;
+      font-size: 2.4rem;
+      font-weight: 500;
+      text-align: center;
+      color: #aaaaaa;
+      span {
+        color: #333;
+      }
+    }
+    &__subtitle {
+      font-weight: 500;
+      font-size: 1.5rem;
+      color: #333;
+    }
+    .btn_one {
+      margin: 1rem 0rem !important;
+    }
+    .btn_three {
+      margin: 0 !important;
+    }
+    .btn_private {
+      margin: 0 !important;
+    }
+    &__box {
+      margin-top: 2rem;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 5px;
+      .item {
+        flex: 0 50%;
+        margin-bottom: 1rem;
+      }
+      &__item_1 {
+        color: #797d8b;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+      &__item_2 {
+        color: #464850;
+        font-size: 0.9rem;
+        text-align: right;
+        justify-content: flex-end;
+        display: flex;
+        span {
+          color: #9da1b3;
+        }
+      }
+
+      &__icon {
+        display: flex;
+        justify-content: space-around;
       }
     }
   }
