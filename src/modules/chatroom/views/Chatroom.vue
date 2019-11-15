@@ -15,7 +15,9 @@
           </p>
           <div class="live">En vivo</div>
         </div>
-        <div class="chatroom__streaming__header__section_2">#stock</div>
+        <div class="chatroom__streaming__header__section_2">
+          Finalizar clase
+        </div>
       </div>
       <div class="chatroom__streaming__video">
         <div @click="fullScreen" class="chatroom__streaming__video__fullscreen">
@@ -35,7 +37,12 @@
       </div>
       <div class="chatroom__streaming__footer">
         <h1>Clase numero 1</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, ratione! Molestiae praesentium dolorem ad impedit quia exercitationem amet quod minus fugit, totam obcaecati? Officia a explicabo perferendis illo, ratione dicta.</p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime,
+          ratione! Molestiae praesentium dolorem ad impedit quia exercitationem
+          amet quod minus fugit, totam obcaecati? Officia a explicabo
+          perferendis illo, ratione dicta.
+        </p>
       </div>
     </div>
     <div class="chatroom__box">
@@ -44,9 +51,15 @@
         <p v-if="hideChat">Chat del streaming</p>
       </div>
       <div @scroll="onScroll" v-if="hideChat" class="chatroom__box__messages">
-        <div v-for="message in messages" :key="message.text" class="chatroom__box__messages__data">
+        <div
+          v-for="message in messages"
+          :key="message.text"
+          class="chatroom__box__messages__data"
+        >
           <div class="chatroom__box__messages__data__profile">VM</div>
-          <div class="chatroom__box__messages__data__message">{{message.text}}</div>
+          <div class="chatroom__box__messages__data__message">
+            {{ message.text }}
+          </div>
         </div>
       </div>
       <div v-if="hideChat" class="chatroom__box__text">
@@ -61,7 +74,11 @@
             placeholder="Mensaje rapido..."
           ></textarea>
         </form>
-        <img @click="validateMessage()" src="../../../assets/img/send.png" alt="Enviar" />
+        <img
+          @click="validateMessage()"
+          src="../../../assets/img/send.png"
+          alt="Enviar"
+        />
       </div>
     </div>
   </div>
@@ -71,7 +88,7 @@
 import OT from "@opentok/client";
 import Subscriber from "../components/Subscriber";
 import { required } from "vuelidate/lib/validators";
-const $ = require('jquery')
+const $ = require("jquery");
 export default {
   components: { Subscriber },
   data() {
@@ -86,7 +103,7 @@ export default {
       configPublisher: {
         insertMode: "append",
         width: "500px",
-        height: "500px"
+        height: "550px"
       },
       configSubscriber: {
         insertMode: "append",
@@ -157,10 +174,10 @@ export default {
         arrow.removeAttribute("style");
       }
     },
-    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+    onScroll({ target: { scrollTop, clientHeight, scrollHeight } }) {
       if (scrollTop + clientHeight >= scrollHeight) {
         this.onBottom = true;
-      }else{
+      } else {
         this.onBottom = false;
       }
     },
@@ -177,8 +194,8 @@ export default {
         text: this.form.message
       };
       this.messages.push(message);
-      if(this.onBottom){
-      this.scrollToBottom();
+      if (this.onBottom) {
+        this.scrollToBottom();
       }
       this.clearForm();
     },
@@ -186,8 +203,13 @@ export default {
       this.$v.$reset();
       this.form.message = null;
     },
-    scrollToBottom(){
-      $(".chatroom__box__messages").stop().animate({ scrollTop: $(".chatroom__box__messages")[0].scrollHeight}, 1000);
+    scrollToBottom() {
+      $(".chatroom__box__messages")
+        .stop()
+        .animate(
+          { scrollTop: $(".chatroom__box__messages")[0].scrollHeight },
+          1000
+        );
     },
     fullScreen() {
       const elem = document.querySelector(".OT_publisher");
@@ -228,6 +250,9 @@ export default {
 </script>
 
 <style lang="scss">
+.OT_fit-mode-cover .OT_video-element {
+  object-fit: contain !important;
+}
 .chatroom {
   display: flex;
 
@@ -303,13 +328,19 @@ export default {
         font-family: "Rubik", sans-serif;
         background-color: #6359ff;
         height: 2rem;
-        width: 5rem;
+        padding: 1rem;
+        cursor: pointer;
         font-size: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 5px;
         font-weight: 500;
+        transition: 1s;
+        &:hover {
+          background-color: #4840bd;
+          transition: 1s;
+        }
       }
     }
     &__footer {
