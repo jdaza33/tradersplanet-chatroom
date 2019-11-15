@@ -18,11 +18,12 @@
                   id="className"
                   v-model="form.className"
                 />
-                <span class="md-error" v-if="!$v.form.className.required">El className es requerido</span>
-                <span
-                  class="md-error"
-                  v-else-if="!$v.form.className.minlength"
-                >Tiene que ser mayor a 3 caracteres</span>
+                <span class="md-error" v-if="!$v.form.className.required"
+                  >El className es requerido</span
+                >
+                <span class="md-error" v-else-if="!$v.form.className.minlength"
+                  >Tiene que ser mayor a 3 caracteres</span
+                >
               </md-field>
             </div>
           </div>
@@ -34,7 +35,8 @@
           @click="validateClass()"
           class="btn_one md-primary"
           :disabled="sending"
-        >Iniciar streaming</md-button>
+          >Iniciar streaming</md-button
+        >
       </div>
     </div>
   </div>

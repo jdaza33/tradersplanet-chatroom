@@ -7,7 +7,7 @@ import "vue-material/dist/vue-material.min.css";
 import Vuelidate from "vuelidate";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-import { Loader } from './modules/shared/components/Loader'
+import { Loader } from "./modules/shared/components/Loader";
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);

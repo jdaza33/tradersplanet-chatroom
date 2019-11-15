@@ -1,6 +1,6 @@
 import Chatroom from "./modules/chatroom/views/Chatroom";
 import AuthenticationBoard from "./modules/user/views/AuthenticationBoard";
-import DashboardClass from "./modules/class/views/DashboardClass"
+import DashboardClass from "./modules/class/views/DashboardClass";
 const routes = [
   {
     path: "/",

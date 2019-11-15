@@ -11,7 +11,7 @@
           </p>
         </div>
         <div class="main__first_box">
-          <p>Webinarios ({{webinars.length}})</p>
+          <p>Webinarios ({{ webinars.length }})</p>
           <md-button class="btn_one md-primary">Crear Webinario</md-button>
         </div>
         <div class="main__second_box">
@@ -39,23 +39,25 @@
               <td class="author">
                 <img src="../../../assets/img/girl.png" alt="avatar" />
                 <p>
-                  {{item.author}}
+                  {{ item.author }}
                   <!--
                   <br />
                   <span>CEO Traders Planet</span>-->
                 </p>
               </td>
               <td>
-                <p>{{item.className}}</p>
+                <p>{{ item.className }}</p>
               </td>
               <td>
-                <p>{{item.description}}</p>
+                <p>{{ item.description }}</p>
               </td>
               <td>
-                <p>{{item.date}}</p>
+                <p>{{ item.date }}</p>
               </td>
               <td>
-                <md-button class="btn_private md-primary">{{item.channel}}</md-button>
+                <md-button class="btn_private md-primary">{{
+                  item.channel
+                }}</md-button>
               </td>
               <td>
                 <md-button class="btn_three md-primary">Unirse</md-button>
@@ -63,7 +65,10 @@
               <td>
                 <div class="buttons">
                   <img src="../../../assets/img/edit.png" alt="update" />
-                  <img src="../../../assets/img/delete-button.png" alt="delete" />
+                  <img
+                    src="../../../assets/img/delete-button.png"
+                    alt="delete"
+                  />
                 </div>
               </td>
             </tr>
@@ -171,7 +176,7 @@ export default {
   .low_font {
   }
   .main {
-    height: 75%;
+    padding: 3rem 0rem;
     width: 90%;
     background-color: #ffffff;
     z-index: 1;
