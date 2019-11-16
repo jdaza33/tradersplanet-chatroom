@@ -1,5 +1,9 @@
 <template>
-  <div v-bind:class="{ mobile: isMobile }" class="box">
+  <div
+    v-bind:class="{ mobile: isMobile }"
+    v-bind:style="{width: (!isMobile && maxWidth) ? '36rem' : '30rem'}"
+    class="box"
+  >
     <div class="box__content">
       <div class="box__content__title">
         Traders
@@ -63,7 +67,13 @@
                 <md-checkbox class="md-primary" v-model="showDate">
                   <p class="bold">{{showDate ? 'Remover' : 'Programar Webinario' }}</p>
                 </md-checkbox>
-                <VueCtkDateTimePicker v-if="showDate" v-model="form.date">
+                <VueCtkDateTimePicker
+                  v-on:is-shown="maxWidth = true"
+                  v-on:is-hidden="maxWidth = false"
+                  :label="'Introduzca la fecha y hora'"
+                  v-if="showDate"
+                  v-model="form.date"
+                >
                   <label>Fecha programada</label>
                 </VueCtkDateTimePicker>
               </div>
@@ -94,6 +104,7 @@ export default {
   props: ["isMobile"],
   data: () => ({
     sending: false,
+    maxWidth: false,
     form: {
       className: null,
       channel: "public",
@@ -136,6 +147,7 @@ export default {
     },
     createClass() {
       this.sending = true;
+      console.log(this.form.date);
       window.setTimeout(() => {
         this.clearForm();
         if (!this.showDate) {
@@ -184,6 +196,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   z-index: 1;
+  transition: 1s;
   &__content {
     height: 90%;
     display: flex;

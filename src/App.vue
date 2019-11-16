@@ -39,6 +39,43 @@ a {
   transition: 1s;
 }
 
+.datepicker-day-effect,
+.datepicker-button-effect,
+.custom-button-effect {
+  background-color: $calendar-color !important;
+}
+
+.datepicker-button-content {
+  color: $primary-color !important;
+}
+.time-picker-column-item-effect {
+  background-color: $primary-color !important;
+}
+
+.custom-button-content {
+  color: $primary-color !important;
+}
+.header-picker {
+  background-color: $primary-color !important;
+}
+.datepicker-container
+  .datepicker-days
+  .datepicker-day.selected
+  .datepicker-day-effect {
+  background-color: $primary-color !important;
+}
+.date-time-picker {
+  background-color: #ffffff !important;
+  border: 1.5px solid $secondary-color !important;
+  padding: 1rem !important;
+  font-weight: bold !important;
+  color: #333 !important;
+  font-family: "Rubik", sans-serif;
+  -webkit-box-shadow: 0px 17px 39px -10px rgba(0, 0, 0, 0.2) !important;
+  -moz-box-shadow: 0px 17px 39px -10px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0px 17px 39px -10px rgba(0, 0, 0, 0.2) !important;
+}
+
 .md-field {
   background-color: #ffffff !important;
   border: 1.5px solid $secondary-color;

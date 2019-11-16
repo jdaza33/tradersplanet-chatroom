@@ -55,7 +55,7 @@ export default {
         author: "Maria Manrique",
         className: "Mi primera clase",
         description: "Mi descripcion",
-        date: "12/20/19 a las 8:00am",
+        date: "2019-11-15 10:41 pm",
         channel: "private"
       },
       {
@@ -63,7 +63,7 @@ export default {
         author: "Maria Manrique",
         className: "Mi primera clase",
         description: "Mi descripcion",
-        date: "12/20/19 a las 8:00am",
+        date: "2019-11-15 11:41 pm",
         channel: "private"
       },
       {
@@ -71,7 +71,7 @@ export default {
         author: "Maria Manrique",
         className: "Mi primera clase",
         description: "Mi descripcion",
-        date: "12/20/19 a las 8:00am",
+        date: "2019-11-15 12:41 pm",
         channel: "private"
       },
       {
@@ -79,7 +79,7 @@ export default {
         author: "Maria Manrique",
         className: "Mi primera clase",
         description: "Mi descripcion",
-        date: "12/20/19 a las 8:00am",
+        date: "2019-11-15 11:41 pm",
         channel: "private"
       }
     ]
