@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:class="{ 'low': isMobile }" class="main">
+  <div v-bind:class="{ low: isMobile }" class="main">
     <img
       @click="navigateTo('dashboard')"
       src="../../../assets/img/arrow_back.png"
@@ -9,51 +9,65 @@
     <div class="main__wrapper">
       <div class="main__wrapper__header">
         <img class="avatar_profile" src="../../../assets/img/girl_1.png" alt />
-        <p class="title">{{this.form.name}}</p>
-        <p class="subtitle">{{this.form.summary}}</p>
+        <p class="title">{{ this.form.name }}</p>
+        <p class="subtitle">{{ this.form.summary }}</p>
       </div>
       <div
-        v-bind:style="{ 'width': !isMobile ? '50%' : '100%' }"
+        v-bind:style="{ width: !isMobile ? '50%' : '100%' }"
         class="main__wrapper__information"
       >
         <div class="main__wrapper__information__item">
           <div class="center_label">
             <p class="label">Correo electronico</p>
           </div>
-          <div v-bind:style="{ 'width': !emailActive ? '60%' : '50%' }" class="center_text">
-            <p
-              v-if="!emailActive"
-              class="information"
-            >{{this.userInfo.email | truncate(17, '...', this.isMobile)}}</p>
+          <div
+            v-bind:style="{ width: !emailActive ? '60%' : '50%' }"
+            class="center_text"
+          >
+            <p v-if="!emailActive" class="information">
+              {{ this.userInfo.email | truncate(17, "...", this.isMobile) }}
+            </p>
             <md-field v-if="emailActive" :class="getValidationClass('email')">
               <label for="email">Correo electronico</label>
-              <md-input type="email" name="email" id="email" v-model="form.email" />
-              <span class="md-error" v-if="!$v.form.email.required">El email es requerido</span>
-              <span
-                class="md-error"
-                v-else-if="!$v.form.email.minlength"
-              >Tiene que ser mayor a 3 caracteres</span>
+              <md-input
+                type="email"
+                name="email"
+                id="email"
+                v-model="form.email"
+              />
+              <span class="md-error" v-if="!$v.form.email.required"
+                >El email es requerido</span
+              >
+              <span class="md-error" v-else-if="!$v.form.email.minlength"
+                >Tiene que ser mayor a 3 caracteres</span
+              >
             </md-field>
           </div>
-          <div v-bind:style="{ 'width': !emailActive ? '20%' : '30%' }" class="buttons">
+          <div
+            v-bind:style="{ width: !emailActive ? '20%' : '30%' }"
+            class="buttons"
+          >
             <md-button
               :disabled="sending"
               v-if="!emailActive"
               @click="emailActive = true"
               class="btn_private md-primary"
-            >Actualizar</md-button>
+              >Actualizar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="emailActive"
               @click="validateUser('email')"
               class="btn_private md-primary"
-            >Guardar</md-button>
+              >Guardar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="emailActive"
               @click="emailActive = false"
               class="btn_cancel md-primary"
-            >Cancelar</md-button>
+              >Cancelar</md-button
+            >
           </div>
         </div>
         <hr />
@@ -62,40 +76,49 @@
           <div class="center_label">
             <p class="label">Nombre completo</p>
           </div>
-          <div v-bind:style="{ 'width': !nameActive ? '60%' : '50%' }" class="center_text">
-            <p
-              v-if="!nameActive"
-              class="information"
-            >{{this.userInfo.name | truncate(15, '...', this.isMobile)}}</p>
+          <div
+            v-bind:style="{ width: !nameActive ? '60%' : '50%' }"
+            class="center_text"
+          >
+            <p v-if="!nameActive" class="information">
+              {{ this.userInfo.name | truncate(15, "...", this.isMobile) }}
+            </p>
             <md-field v-if="nameActive" :class="getValidationClass('name')">
               <label for="text">Nombre completo</label>
               <md-input type="name" name="name" id="name" v-model="form.name" />
-              <span class="md-error" v-if="!$v.form.name.required">El nombre completo es requerido</span>
-              <span
-                class="md-error"
-                v-else-if="!$v.form.name.minlength"
-              >Tiene que ser mayor a 3 caracteres</span>
+              <span class="md-error" v-if="!$v.form.name.required"
+                >El nombre completo es requerido</span
+              >
+              <span class="md-error" v-else-if="!$v.form.name.minlength"
+                >Tiene que ser mayor a 3 caracteres</span
+              >
             </md-field>
           </div>
-          <div v-bind:style="{ 'width': !nameActive ? '20%' : '30%' }" class="buttons">
+          <div
+            v-bind:style="{ width: !nameActive ? '20%' : '30%' }"
+            class="buttons"
+          >
             <md-button
               :disabled="sending"
               v-if="!nameActive"
               @click="nameActive = true"
               class="btn_private md-primary"
-            >Actualizar</md-button>
+              >Actualizar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="nameActive"
               @click="validateUser('name')"
               class="btn_private md-primary"
-            >Guardar</md-button>
+              >Guardar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="nameActive"
               @click="nameActive = false"
               class="btn_cancel md-primary"
-            >Cancelar</md-button>
+              >Cancelar</md-button
+            >
           </div>
         </div>
         <hr />
@@ -105,32 +128,48 @@
             <p class="label">Numero de telefono</p>
           </div>
 
-          <div v-bind:style="{ 'width': !phoneActive ? '60%' : '50%' }" class="center_text">
-            <p v-if="!phoneActive" class="information">{{this.userInfo.phone}}</p>
+          <div
+            v-bind:style="{ width: !phoneActive ? '60%' : '50%' }"
+            class="center_text"
+          >
+            <p v-if="!phoneActive" class="information">
+              {{ this.userInfo.phone }}
+            </p>
             <md-field v-if="phoneActive">
               <label for="phone">Numero de telefono</label>
-              <md-input type="phone" name="phone" id="phone" v-model="form.phone" />
+              <md-input
+                type="phone"
+                name="phone"
+                id="phone"
+                v-model="form.phone"
+              />
             </md-field>
           </div>
-          <div v-bind:style="{ 'width': !phoneActive ? '20%' : '30%' }" class="buttons">
+          <div
+            v-bind:style="{ width: !phoneActive ? '20%' : '30%' }"
+            class="buttons"
+          >
             <md-button
               :disabled="sending"
               v-if="!phoneActive"
               @click="phoneActive = true"
               class="btn_private md-primary"
-            >Actualizar</md-button>
+              >Actualizar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="phoneActive"
               @click="validateUser('phone')"
               class="btn_private md-primary"
-            >Guardar</md-button>
+              >Guardar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="phoneActive"
               @click="phoneActive = false"
               class="btn_cancel md-primary"
-            >Cancelar</md-button>
+              >Cancelar</md-button
+            >
           </div>
         </div>
         <hr />
@@ -140,32 +179,48 @@
             <p class="label">Ocupación</p>
           </div>
 
-          <div v-bind:style="{ 'width': !summaryActive ? '60%' : '50%' }" class="center_text">
-            <p v-if="!summaryActive" class="information">{{this.userInfo.summary}}</p>
+          <div
+            v-bind:style="{ width: !summaryActive ? '60%' : '50%' }"
+            class="center_text"
+          >
+            <p v-if="!summaryActive" class="information">
+              {{ this.userInfo.summary }}
+            </p>
             <md-field v-if="summaryActive">
               <label for="text">Ocupación</label>
-              <md-input type="text" name="summary" id="summary" v-model="form.summary" />
+              <md-input
+                type="text"
+                name="summary"
+                id="summary"
+                v-model="form.summary"
+              />
             </md-field>
           </div>
-          <div v-bind:style="{ 'width': !summaryActive ? '20%' : '30%' }" class="buttons">
+          <div
+            v-bind:style="{ width: !summaryActive ? '20%' : '30%' }"
+            class="buttons"
+          >
             <md-button
               :disabled="sending"
               v-if="!summaryActive"
               @click="summaryActive = true"
               class="btn_private md-primary"
-            >Actualizar</md-button>
+              >Actualizar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="summaryActive"
               @click="validateUser('summary')"
               class="btn_private md-primary"
-            >Guardar</md-button>
+              >Guardar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="summaryActive"
               @click="summaryActive = false"
               class="btn_cancel md-primary"
-            >Cancelar</md-button>
+              >Cancelar</md-button
+            >
           </div>
         </div>
         <hr />
@@ -175,37 +230,57 @@
             <p class="label">Contraseña</p>
           </div>
 
-          <div v-bind:style="{ 'width': !passwordActive ? '60%' : '50%' }" class="center_text">
-            <p v-if="!passwordActive" class="information">{{this.userInfo.password}}</p>
-            <md-field v-if="passwordActive" :class="getValidationClass('password')">
+          <div
+            v-bind:style="{ width: !passwordActive ? '60%' : '50%' }"
+            class="center_text"
+          >
+            <p v-if="!passwordActive" class="information">
+              {{ this.userInfo.password }}
+            </p>
+            <md-field
+              v-if="passwordActive"
+              :class="getValidationClass('password')"
+            >
               <label for="password">Contraseña</label>
-              <md-input type="password" name="password" id="password" v-model="form.password" />
-              <span class="md-error" v-if="!$v.form.password.required">El contraseña es requerido</span>
-              <span
-                class="md-error"
-                v-else-if="!$v.form.password.minlength"
-              >Tiene que ser mayor a 3 caracteres</span>
+              <md-input
+                type="password"
+                name="password"
+                id="password"
+                v-model="form.password"
+              />
+              <span class="md-error" v-if="!$v.form.password.required"
+                >El contraseña es requerido</span
+              >
+              <span class="md-error" v-else-if="!$v.form.password.minlength"
+                >Tiene que ser mayor a 3 caracteres</span
+              >
             </md-field>
           </div>
-          <div v-bind:style="{ 'width': !passwordActive ? '20%' : '30%' }" class="buttons">
+          <div
+            v-bind:style="{ width: !passwordActive ? '20%' : '30%' }"
+            class="buttons"
+          >
             <md-button
               :disabled="sending"
               v-if="!passwordActive"
               @click="passwordActive = true"
               class="btn_private md-primary"
-            >Actualizar</md-button>
+              >Actualizar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="passwordActive"
               @click="validateUser('password')"
               class="btn_private md-primary"
-            >Guardar</md-button>
+              >Guardar</md-button
+            >
             <md-button
               :disabled="sending"
               v-if="passwordActive"
               @click="passwordActive = false"
               class="btn_cancel md-primary"
-            >Cancelar</md-button>
+              >Cancelar</md-button
+            >
           </div>
         </div>
         <hr />

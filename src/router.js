@@ -1,16 +1,14 @@
-
-
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 import Chatroom from "./modules/chatroom/views/Chatroom";
 import AuthenticationBoard from "./modules/user/views/AuthenticationBoard";
 import UserProfile from "./modules/user/views/UserProfile";
 import DashboardClass from "./modules/class/views/DashboardClass";
 
-Vue.use(Router)
+Vue.use(Router);
 
 const router = new Router({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
@@ -34,7 +32,7 @@ const router = new Router({
       component: UserProfile
     }
   ]
-})
+});
 
 // router.beforeEach((to, from, next) => {
 //   const isPublic = to.matched.some(record => record.meta.public)
@@ -55,6 +53,5 @@ const router = new Router({
 
 //   next();
 // })
-
 
 export default router;

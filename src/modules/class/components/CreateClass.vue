@@ -1,7 +1,7 @@
 <template>
   <div
     v-bind:class="{ mobile: isMobile }"
-    v-bind:style="{width: (!isMobile && maxWidth) ? '36rem' : '30rem'}"
+    v-bind:style="{ width: !isMobile && maxWidth ? '36rem' : '30rem' }"
     class="box"
   >
     <div class="box__content">
@@ -23,14 +23,12 @@
                   id="className"
                   v-model="form.className"
                 />
-                <span
-                  class="md-error"
-                  v-if="!$v.form.className.required"
-                >El nombre del webinario es requerido</span>
-                <span
-                  class="md-error"
-                  v-else-if="!$v.form.className.minlength"
-                >Tiene que ser mayor a 3 caracteres</span>
+                <span class="md-error" v-if="!$v.form.className.required"
+                  >El nombre del webinario es requerido</span
+                >
+                <span class="md-error" v-else-if="!$v.form.className.minlength"
+                  >Tiene que ser mayor a 3 caracteres</span
+                >
               </md-field>
               <md-field :class="getValidationClass('channel')">
                 <label for="movie">Tipo de canal</label>
@@ -38,10 +36,9 @@
                   <md-option value="private">Privado</md-option>
                   <md-option value="public">Publico</md-option>
                 </md-select>
-                <span
-                  class="md-error"
-                  v-if="!$v.form.channel.required"
-                >El tipo de canal es requerido</span>
+                <span class="md-error" v-if="!$v.form.channel.required"
+                  >El tipo de canal es requerido</span
+                >
               </md-field>
               <md-field :class="getValidationClass('description')">
                 <label for="description">Descripción de la clase</label>
@@ -51,21 +48,25 @@
                   id="description"
                   v-model="form.description"
                 />
-                <span
-                  class="md-error"
-                  v-if="!$v.form.description.required"
-                >La descripción es requerida</span>
+                <span class="md-error" v-if="!$v.form.description.required"
+                  >La descripción es requerida</span
+                >
                 <span
                   class="md-error"
                   v-else-if="!$v.form.description.minlength"
-                >Tiene que ser mayor a 10 caracteres</span>
+                  >Tiene que ser mayor a 10 caracteres</span
+                >
               </md-field>
               <div
-                v-bind:style="{ 'flex-direction': isMobile ? 'column !important' : 'row' }"
+                v-bind:style="{
+                  'flex-direction': isMobile ? 'column !important' : 'row'
+                }"
                 class="box_display"
               >
                 <md-checkbox class="md-primary" v-model="showDate">
-                  <p class="bold">{{showDate ? 'Remover' : 'Programar Webinario' }}</p>
+                  <p class="bold">
+                    {{ showDate ? "Remover" : "Programar Webinario" }}
+                  </p>
                 </md-checkbox>
                 <VueCtkDateTimePicker
                   v-on:is-shown="maxWidth = true"
@@ -87,8 +88,11 @@
           @click="validateClass()"
           class="btn_one md-primary"
           :disabled="sending"
-        >{{!showDate ? 'Iniciar Webinario' : 'Guardar'}}</md-button>
-        <md-button type="submit" @click="close()" class="btn_two md-primary">Cancelar</md-button>
+          >{{ !showDate ? "Iniciar Webinario" : "Guardar" }}</md-button
+        >
+        <md-button type="submit" @click="close()" class="btn_two md-primary"
+          >Cancelar</md-button
+        >
       </div>
     </div>
   </div>
