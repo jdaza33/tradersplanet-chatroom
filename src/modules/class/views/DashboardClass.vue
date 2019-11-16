@@ -9,6 +9,7 @@
         alt
       />
       <img
+        @click="goToProfile()"
         v-bind:style="{
           height: isMobile ? '3rem !important' : 'auto',
           top: isMobile ? '0rem !important' : '1rem'
@@ -35,6 +36,9 @@ export default {
       window.setTimeout(() => {
         this.enable = false;
       }, 2000);
+    },
+    goToProfile() {
+      this.$router.push("profile");
     },
     onResize() {
       if (window.innerWidth <= 1280) {
