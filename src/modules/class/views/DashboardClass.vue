@@ -3,13 +3,16 @@
     <div v-if="enable" class="container_dissolve"></div>
     <div class="container">
       <img
-        v-bind:style="{ height: isMobile ? '50% !important' : '90%'}"
+        v-bind:style="{ height: isMobile ? '50% !important' : '90%' }"
         class="avatar"
         src="../../../assets/img/streaming.png"
         alt
       />
       <img
-        v-bind:style="{ height: isMobile ? '3rem !important' : 'auto', top: isMobile ? '0rem !important' : '1rem'}"
+        v-bind:style="{
+          height: isMobile ? '3rem !important' : 'auto',
+          top: isMobile ? '0rem !important' : '1rem'
+        }"
         class="avatar_profile"
         src="../../../assets/img/girl.png"
         alt
@@ -88,7 +91,7 @@ export default {
   }
 };
 </script>
-<style  lang="scss">
+<style lang="scss">
 .container_dissolve {
   height: 100vh;
   width: 100%;

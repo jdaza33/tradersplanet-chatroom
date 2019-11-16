@@ -53,9 +53,7 @@
             </td>
             <td>
               <md-button class="btn_private md-primary">
-                {{
-                item.channel
-                }}
+                {{ item.channel }}
               </md-button>
             </td>
             <td>
@@ -88,7 +86,9 @@
           <div class="main_mobile__box__item_2 item">{{ item.className }}</div>
 
           <div class="main_mobile__box__item_1 item">Descripción</div>
-          <div class="main_mobile__box__item_2 item">{{ item.description }}</div>
+          <div class="main_mobile__box__item_2 item">
+            {{ item.description }}
+          </div>
 
           <div class="main_mobile__box__item_1 item">Fecha</div>
           <div class="main_mobile__box__item_2 item">{{ item.date }}</div>
@@ -96,9 +96,7 @@
           <div class="main_mobile__box__item_1 item">Canal</div>
           <div class="main_mobile__box__item_2 item">
             <md-button class="btn_private md-primary">
-              {{
-              item.channel
-              }}
+              {{ item.channel }}
             </md-button>
           </div>
 
