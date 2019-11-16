@@ -5,7 +5,7 @@
         Traders
         <span>Planet</span>
       </div>
-      <div class="box__content__subtitle">Creacion de Webinario</div>
+      <div class="box__content__subtitle">Actualizar Webinario</div>
       <hr />
       <div class="box__content__form">
         <form novalidate class @submit.prevent="validateClass">
@@ -77,7 +77,7 @@
           @click="validateClass()"
           class="btn_one md-primary"
           :disabled="sending"
-        >{{!showDate ? 'Iniciar Webinario' : 'Guardar'}}</md-button>
+        >Actualizar</md-button>
         <md-button type="submit" @click="close()" class="btn_two md-primary">Cancelar</md-button>
       </div>
     </div>
@@ -89,9 +89,9 @@ import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
-  name: "CreateClass",
+  name: "EditClass",
   mixins: [validationMixin],
-  props: ["isMobile"],
+  props: ["isMobile", "selectedClass"],
   data: () => ({
     sending: false,
     form: {
@@ -134,19 +134,15 @@ export default {
       this.$v.$reset();
       this.form.className = null;
     },
-    createClass() {
+    updateClass() {
       this.sending = true;
       window.setTimeout(() => {
         this.clearForm();
-        if (!this.showDate) {
-          this.$router.push("chatroom");
-          return;
-        }
-        this.$emit("closeCreateDialog", false);
+        this.$emit("closeUpdateDialog", false);
       }, 1500);
     },
     close() {
-      this.$emit("closeCreateDialog", false);
+      this.$emit("closeUpdateDialog", false);
     },
     validateClass() {
       this.$v.$touch();
@@ -155,6 +151,20 @@ export default {
         this.createClass();
       }
     }
+  },
+  mounted() {
+    console.log(this.selectedClass);
+    this.form.className = this.selectedClass.className;
+    this.form.description = this.selectedClass.description;
+    this.form.channel = this.selectedClass.channel;
+    console.log(this.selectedClass.date);
+    if (this.selectedClass.date) {
+      this.showDate = true;
+      this.form.date = this.selectedClass.date;
+      console.log("exist");
+      return;
+    }
+    console.log("dont");
   }
 };
 </script>

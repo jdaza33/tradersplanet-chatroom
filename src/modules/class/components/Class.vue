@@ -1,5 +1,19 @@
 <template>
   <div class="root">
+    <md-dialog
+      v-bind:style="{ 'border-radius': isMobile ? '0rem' : '1rem !important' }"
+      :md-close-on-esc="false"
+      :md-active.sync="createDialog"
+    >
+      <CreateClass v-bind:isMobile="isMobile" v-on:closeCreateDialog="closeCreateDialog($event)" />
+    </md-dialog>
+    <md-dialog :md-active.sync="updateDialog">
+      <EditClass
+        v-bind:isMobile="isMobile"
+        v-bind:selectedClass="selectedClass"
+        v-on:closeUpdateDialog="closeUpdateDialog($event)"
+      />
+    </md-dialog>
     <div v-if="!isMobile" class="main">
       <div class="main__header">
         <p>
@@ -9,7 +23,7 @@
       </div>
       <div class="main__first_box">
         <p>Webinarios ({{ webinars.length }})</p>
-        <md-button class="btn_one md-primary">Crear Webinario</md-button>
+        <md-button @click="createDialog = true" class="btn_one md-primary">Crear Webinario</md-button>
       </div>
       <div class="main__second_box">
         <table>
@@ -52,16 +66,14 @@
               <p>{{ item.date }}</p>
             </td>
             <td>
-              <md-button class="btn_private md-primary">
-                {{ item.channel }}
-              </md-button>
+              <md-button class="btn_private md-primary">{{ item.channel }}</md-button>
             </td>
             <td>
               <md-button class="btn_three md-primary">Unirse</md-button>
             </td>
             <td>
               <div class="buttons">
-                <img src="../../../assets/img/edit.png" alt="update" />
+                <img @click="updateItem(item)" src="../../../assets/img/edit.png" alt="update" />
                 <img src="../../../assets/img/delete-button.png" alt="delete" />
               </div>
             </td>
@@ -76,7 +88,7 @@
       </p>
       <p class="main_mobile__subtitle">Webinarios ({{ webinars.length }})</p>
 
-      <md-button class="btn_one md-primary">Crear Webinario</md-button>
+      <md-button class="btn_one md-primary" @click="createDialog = true">Crear Webinario</md-button>
       <div v-for="item in webinars" :key="item.id">
         <div class="main_mobile__box">
           <div class="main_mobile__box__item_1 item">Autor</div>
@@ -86,25 +98,21 @@
           <div class="main_mobile__box__item_2 item">{{ item.className }}</div>
 
           <div class="main_mobile__box__item_1 item">Descripción</div>
-          <div class="main_mobile__box__item_2 item">
-            {{ item.description }}
-          </div>
+          <div class="main_mobile__box__item_2 item">{{ item.description }}</div>
 
           <div class="main_mobile__box__item_1 item">Fecha</div>
           <div class="main_mobile__box__item_2 item">{{ item.date }}</div>
 
           <div class="main_mobile__box__item_1 item">Canal</div>
           <div class="main_mobile__box__item_2 item">
-            <md-button class="btn_private md-primary">
-              {{ item.channel }}
-            </md-button>
+            <md-button class="btn_private md-primary">{{ item.channel }}</md-button>
           </div>
 
           <div class="main_mobile__box__item_1 item">
             <md-button class="btn_three md-primary">Unirse</md-button>
           </div>
           <div class="main_mobile__box__icon item">
-            <img src="../../../assets/img/edit.png" alt="update" />
+            <img @click="updateItem(item)" src="../../../assets/img/edit.png" alt="update" />
             <img src="../../../assets/img/delete-button.png" alt="delete" />
           </div>
         </div>
@@ -113,9 +121,33 @@
   </div>
 </template>
 <script>
+import CreateClass from "../components/CreateClass";
+import EditClass from "../components/EditClass";
 export default {
   name: "Class",
+  components: {
+    CreateClass,
+    EditClass
+  },
+  data: () => ({
+    createDialog: false,
+    updateDialog: false,
+    selectedClass: null
+  }),
   props: ["webinars", "isMobile"],
+  methods: {
+    updateItem(item) {
+      this.selectedClass = item;
+      this.updateDialog = true;
+    },
+
+    closeCreateDialog(event) {
+      this.createDialog = event;
+    },
+    closeUpdateDialog(event) {
+      this.updateDialog = event;
+    }
+  },
   mounted() {
     console.log(this.webinar);
     console.log(this.isMobile);

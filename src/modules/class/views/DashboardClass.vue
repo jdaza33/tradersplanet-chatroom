@@ -56,7 +56,7 @@ export default {
         className: "Mi primera clase",
         description: "Mi descripcion",
         date: "12/20/19 a las 8:00am",
-        channel: "Privado"
+        channel: "private"
       },
       {
         id: 2,
@@ -64,7 +64,7 @@ export default {
         className: "Mi primera clase",
         description: "Mi descripcion",
         date: "12/20/19 a las 8:00am",
-        channel: "Privado"
+        channel: "private"
       },
       {
         id: 3,
@@ -72,7 +72,7 @@ export default {
         className: "Mi primera clase",
         description: "Mi descripcion",
         date: "12/20/19 a las 8:00am",
-        channel: "Privado"
+        channel: "private"
       },
       {
         id: 4,
@@ -80,7 +80,7 @@ export default {
         className: "Mi primera clase",
         description: "Mi descripcion",
         date: "12/20/19 a las 8:00am",
-        channel: "Privado"
+        channel: "private"
       }
     ]
   }),
@@ -92,6 +92,11 @@ export default {
 };
 </script>
 <style lang="scss">
+.md-dialog {
+  .md-dialog-container {
+    overflow: scroll !important;
+  }
+}
 .container_dissolve {
   height: 100vh;
   width: 100%;

@@ -15,6 +15,10 @@
   background: #6359ff;
   border-radius: 27px;
 }
+
+.bold {
+  font-weight: 500 !important;
+}
 * {
   margin: 0;
   padding: 0;
@@ -46,7 +50,8 @@ a {
   label {
     padding-left: 0.3rem;
   }
-  input {
+  input,
+  textarea {
     font-weight: 500;
   }
 }
