@@ -63,9 +63,9 @@
                 <md-checkbox class="md-primary" v-model="showDate">
                   <p class="bold">{{showDate ? 'Remover' : 'Programar Webinario' }}</p>
                 </md-checkbox>
-                <md-datepicker v-if="showDate" v-model="form.date">
+                <VueCtkDateTimePicker v-if="showDate" v-model="form.date">
                   <label>Fecha programada</label>
-                </md-datepicker>
+                </VueCtkDateTimePicker>
               </div>
             </div>
           </div>
