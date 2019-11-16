@@ -9,18 +9,12 @@
     <div class="container__one__logo">
       <img class="logoRegister" src="../../../assets/img/gray_logo.png" alt />
     </div>
-    <div
-      id="formRegister"
-      class="container__one__content"
-      v-bind:class="{ mobile: isMobile }"
-    >
+    <div id="formRegister" class="container__one__content" v-bind:class="{ mobile: isMobile }">
       <div class="container__one__content__section_one">
         <p class="container__one__content__section_one__title">
           <span>¡Empecemos!</span>
         </p>
-        <p class="container__one__content__section_one__subtitle">
-          Ingresa los campos
-        </p>
+        <p class="container__one__content__section_one__subtitle">Ingresa los campos</p>
       </div>
       <div class="container_one__content__form">
         <form novalidate class @submit.prevent="validateUser">
@@ -35,30 +29,28 @@
                   v-model="form.email"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.email.required"
-                  >El email es requerido</span
-                >
-                <span class="md-error" v-else-if="!$v.form.email.minlength"
-                  >Tiene que ser mayor a 3 caracteres</span
-                >
+                <span class="md-error" v-if="!$v.form.email.required">El email es requerido</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.form.email.minlength"
+                >Tiene que ser mayor a 3 caracteres</span>
               </md-field>
             </div>
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('fullname')">
+              <md-field :class="getValidationClass('name')">
                 <label for="email">Nombre completo</label>
                 <md-input
                   type="text"
-                  name="fullname"
-                  id="fullname"
-                  v-model="form.fullname"
+                  name="name"
+                  id="name"
+                  v-model="form.name"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.fullname.required"
-                  >El nombre completo es requerido</span
-                >
-                <span class="md-error" v-else-if="!$v.form.fullname.minlength"
-                  >Tiene que ser mayor a 3 caracteres</span
-                >
+                <span class="md-error" v-if="!$v.form.name.required">El nombre completo es requerido</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.form.name.minlength"
+                >Tiene que ser mayor a 3 caracteres</span>
               </md-field>
             </div>
             <div class="md-layout-item md-small-size-100">
@@ -71,12 +63,11 @@
                   v-model="form.phone"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.phone.required"
-                  >El numero es requerido</span
-                >
-                <span class="md-error" v-else-if="!$v.form.phone.minlength"
-                  >Tiene que ser mayor a 3 caracteres</span
-                >
+                <span class="md-error" v-if="!$v.form.phone.required">El numero es requerido</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.form.phone.minlength"
+                >Tiene que ser mayor a 3 caracteres</span>
               </md-field>
             </div>
 
@@ -90,18 +81,15 @@
                   v-model="form.password"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.password.required"
-                  >La contraseña es requerida</span
-                >
-                <span class="md-error" v-else-if="!$v.form.password.minlength"
-                  >Tiene que ser mayor a 3 caracteres</span
-                >
+                <span class="md-error" v-if="!$v.form.password.required">La contraseña es requerida</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.form.password.minlength"
+                >Tiene que ser mayor a 3 caracteres</span>
               </md-field>
             </div>
           </div>
-          <md-snackbar :md-active.sync="userSaved"
-            >The user {{ lastUser }} was saved with success!</md-snackbar
-          >
+          <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
         </form>
         <div class="split min-width">
           <md-button
@@ -109,11 +97,8 @@
             @click="validateUser()"
             class="btn_one md-primary"
             :disabled="sending"
-            >Registrarse</md-button
-          >
-          <md-button @click="moveElement()" class="btn_two md-primary"
-            >Volver</md-button
-          >
+          >Registrarse</md-button>
+          <md-button @click="moveElement()" class="btn_two md-primary">Volver</md-button>
         </div>
       </div>
     </div>
@@ -131,7 +116,7 @@ export default {
     form: {
       email: null,
       password: null,
-      fullname: null,
+      name: null,
       phone: null
     },
     lastUser: null,
@@ -153,7 +138,7 @@ export default {
         required,
         minLength: minLength(3)
       },
-      fullname: {
+      name: {
         required,
         minLength: minLength(3)
       },
@@ -178,7 +163,7 @@ export default {
       this.form.email = null;
       this.form.password = null;
       this.form.phone = null;
-      this.form.fullname = null;
+      this.form.name = null;
     },
 
     moveElement() {

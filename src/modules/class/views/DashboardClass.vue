@@ -29,13 +29,19 @@ export default {
   name: "dashboardClass",
   methods: {
     setInitAnimation() {
-      window.setTimeout(() => {
-        const container = document.querySelector(".container_dissolve");
-        container.classList.add("animate_min");
-      }, 1000);
-      window.setTimeout(() => {
-        this.enable = false;
-      }, 2000);
+      if (this.$route.params.activeAnimation) {
+        window.setTimeout(() => {
+          const container = document.querySelector(".container_dissolve");
+          container.classList.add("animate_min");
+          window.setTimeout(() => {
+            this.enable = false;
+          }, 2000);
+        }, 1000);
+        return;
+      }
+      const container = document.querySelector(".container_dissolve");
+      container.classList.add("animate_min_fast");
+      this.enable = false;
     },
     goToProfile() {
       this.$router.push("profile");
@@ -89,6 +95,7 @@ export default {
     ]
   }),
   mounted() {
+    console.log();
     this.onResize();
     window.addEventListener("resize", this.onResize);
     this.setInitAnimation();
@@ -134,6 +141,10 @@ export default {
 }
 
 .animate_min {
+  width: 0%;
+  transition: 1s;
+}
+.animate_min_fast {
   width: 0%;
   transition: 1s;
 }

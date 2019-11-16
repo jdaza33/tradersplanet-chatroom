@@ -159,6 +159,16 @@ a:not(.md-button):hover {
   color: $primary-color !important;
   font-size: 16px;
 }
+
+.btn_cancel {
+  height: 2.5rem !important;
+  font-weight: 500 !important;
+  width: 6rem !important;
+  background: $secondary-color !important;
+  text-transform: unset;
+  color: $title-text-color !important;
+  font-size: 16px;
+}
 .btn_two {
   height: 3rem !important;
   font-weight: 400 !important;

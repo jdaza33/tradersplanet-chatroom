@@ -9,11 +9,7 @@
     <div class="container__one__logo">
       <img class="logo" src="../../../assets/img/gray_logo.png" alt />
     </div>
-    <div
-      id="formLogin"
-      class="container__one__content"
-      v-bind:class="{ mobile: isMobile }"
-    >
+    <div id="formLogin" class="container__one__content" v-bind:class="{ mobile: isMobile }">
       <div class="container__one__content__section_one">
         <p class="container__one__content__section_one__title">
           Traders
@@ -37,12 +33,11 @@
                   v-model="form.email"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.email.required"
-                  >El email es requerido</span
-                >
-                <span class="md-error" v-else-if="!$v.form.email.minlength"
-                  >Tiene que ser mayor a 3 caracteres</span
-                >
+                <span class="md-error" v-if="!$v.form.email.required">El email es requerido</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.form.email.minlength"
+                >Tiene que ser mayor a 3 caracteres</span>
               </md-field>
             </div>
 
@@ -56,12 +51,11 @@
                   v-model="form.password"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.password.required"
-                  >La contraseña es requerida</span
-                >
-                <span class="md-error" v-else-if="!$v.form.password.minlength"
-                  >Tiene que ser mayor a 3 caracteres</span
-                >
+                <span class="md-error" v-if="!$v.form.password.required">La contraseña es requerida</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.form.password.minlength"
+                >Tiene que ser mayor a 3 caracteres</span>
               </md-field>
             </div>
             <div class="split md-layout-item md-small-size-100">
@@ -71,9 +65,7 @@
               <p class="forgot">Olvide mi contraseña</p>
             </div>
           </div>
-          <md-snackbar :md-active.sync="userSaved"
-            >The user {{ lastUser }} was saved with success!</md-snackbar
-          >
+          <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
         </form>
         <div class="split min-width">
           <md-button
@@ -81,11 +73,8 @@
             @click="validateUser()"
             class="btn_one md-primary"
             :disabled="sending"
-            >Iniciar sesión</md-button
-          >
-          <md-button @click="moveElement()" class="btn_two md-primary"
-            >Registrate</md-button
-          >
+          >Iniciar sesión</md-button>
+          <md-button @click="moveElement()" class="btn_two md-primary">Registrate</md-button>
         </div>
       </div>
     </div>
@@ -172,7 +161,10 @@ export default {
         this.Loader = false;
         window.setTimeout(() => {
           this.sending = false;
-          this.$router.push("dashboard");
+          this.$router.push({
+            name: "dashboardClass",
+            params: { activeAnimation: true }
+          });
         }, 1000);
       }, 3000);
     },
