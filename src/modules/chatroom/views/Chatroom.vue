@@ -1,87 +1,130 @@
 <template>
-  <div class="chatroom">
-    <div class="chatroom__profile_bar">
-      <div class="chatroom__profile_bar__box">
-        <img src="../../../assets/img/gray_logo.png" alt="logo" />
+  <span>
+    <div v-if="!isMobile" class="chatroom">
+      <div class="chatroom__profile_bar">
+        <div class="chatroom__profile_bar__box">
+          <img src="../../../assets/img/gray_logo.png" alt="logo" />
+        </div>
+      </div>
+      <div class="chatroom__streaming">
+        <div class="chatroom__streaming__header">
+          <div class="chatroom__streaming__header__section_1">
+            <img src="../../../assets/img/girl.png" alt="avatar" />
+            <p>
+              Maria
+              <br />Manrique
+            </p>
+            <div class="live">En vivo</div>
+          </div>
+          <div
+            @click="goToClassList()"
+            class="chatroom__streaming__header__section_2"
+          >Finalizar clase</div>
+        </div>
+        <div class="chatroom__streaming__video">
+          <div @click="fullScreen" class="chatroom__streaming__video__fullscreen">
+            <i class="fas fa-compress"></i>
+          </div>
+        </div>
+        <div id="videos">
+          <div id="subscribers" v-for="(stream, index) in streams" :key="index">
+            <subscriber
+              @error="errorHandler"
+              :opts="configSubscriber"
+              :stream="stream"
+              :session="session"
+            ></subscriber>
+          </div>
+          <div class="hola" id="publisher"></div>
+        </div>
+        <div class="chatroom__streaming__footer">
+          <h1>Clase numero 1</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime,
+            ratione! Molestiae praesentium dolorem ad impedit quia exercitationem
+            amet quod minus fugit, totam obcaecati? Officia a explicabo
+            perferendis illo, ratione dicta.
+          </p>
+        </div>
+      </div>
+      <div class="chatroom__box">
+        <div class="chatroom__box__header">
+          <i @click="handleChatView()" class="fas" :class="arrow"></i>
+          <p>Chat del streaming</p>
+        </div>
+        <div @scroll="onScroll" v-if="hideChat" class="chatroom__box__messages">
+          <div
+            v-for="message in messages"
+            :key="message.text"
+            class="chatroom__box__messages__data"
+          >
+            <div class="chatroom__box__messages__data__profile">VM</div>
+            <div class="chatroom__box__messages__data__message">{{ message.text }}</div>
+          </div>
+        </div>
+        <div class="chatroom__box__text">
+          <form novalidate class>
+            <textarea
+              type="text"
+              name="message"
+              id="message"
+              v-model="form.message"
+              maxlength="100"
+              @keypress="onSendMessageKeyboard()"
+              placeholder="Mensaje rapido..."
+            ></textarea>
+          </form>
+          <img @click="validateMessage()" src="../../../assets/img/send.png" alt="Enviar" />
+        </div>
       </div>
     </div>
-    <div class="chatroom__streaming">
-      <div class="chatroom__streaming__header">
-        <div class="chatroom__streaming__header__section_1">
-          <img src="../../../assets/img/girl.png" alt="avatar" />
-          <p>
-            Maria
-            <br />Manrique
-          </p>
-          <div class="live">En vivo</div>
+    <div class="mobile_chat" v-if="isMobile">
+      <div class="mobile_chat__header">
+        <div class="mobile_chat__header__profile">
+          <div class="mobile_chat__header__profile__avatar">
+            <img src="../../../assets/img/girl.png" alt="avatar" />
+            <p>Maria Manrique</p>
+          </div>
+          <div class="mobile_chat__header__profile__live">En vivo</div>
         </div>
-        <div class="chatroom__streaming__header__section_2">
-          Finalizar clase
-        </div>
+        <div @click="goToClassList()" class="mobile_chat__header__finalize">Finalizar</div>
       </div>
-      <div class="chatroom__streaming__video">
-        <div @click="fullScreen" class="chatroom__streaming__video__fullscreen">
+      <div class="mobile_chat__video">
+        <div @click="fullScreen" class="mobile_chat__video__fullscreen">
           <i class="fas fa-compress"></i>
         </div>
       </div>
-      <div id="videos">
-        <div id="subscribers" v-for="(stream, index) in streams" :key="index">
-          <subscriber
-            @error="errorHandler"
-            :opts="configSubscriber"
-            :stream="stream"
-            :session="session"
-          ></subscriber>
+      <div class="mobile_chat__room">
+        <div class="mobile_chat__room__header">
+          <p v-if="hideChat">Chat del streaming</p>
         </div>
-        <div class="hola" id="publisher"></div>
-      </div>
-      <div class="chatroom__streaming__footer">
-        <h1>Clase numero 1</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime,
-          ratione! Molestiae praesentium dolorem ad impedit quia exercitationem
-          amet quod minus fugit, totam obcaecati? Officia a explicabo
-          perferendis illo, ratione dicta.
-        </p>
-      </div>
-    </div>
-    <div class="chatroom__box">
-      <div class="chatroom__box__header">
-        <i @click="handleChatView()" class="fas" :class="arrow"></i>
-        <p v-if="hideChat">Chat del streaming</p>
-      </div>
-      <div @scroll="onScroll" v-if="hideChat" class="chatroom__box__messages">
-        <div
-          v-for="message in messages"
-          :key="message.text"
-          class="chatroom__box__messages__data"
-        >
-          <div class="chatroom__box__messages__data__profile">VM</div>
-          <div class="chatroom__box__messages__data__message">
-            {{ message.text }}
+        <div @scroll="onScroll" v-if="hideChat" class="mobile_chat__room__messages">
+          <div
+            v-for="message in messages"
+            :key="message.text"
+            class="mobile_chat__room__box__messages__data"
+          >
+            <div class="mobile_chat__room__messages__data__profile">VM</div>
+            <div class="mobile_chat__room__messages__data__message">{{ message.text }}</div>
           </div>
         </div>
-      </div>
-      <div v-if="hideChat" class="chatroom__box__text">
-        <form novalidate class>
-          <textarea
-            type="text"
-            name="message"
-            id="message"
-            v-model="form.message"
-            maxlength="100"
-            @keypress="onSendMessageKeyboard()"
-            placeholder="Mensaje rapido..."
-          ></textarea>
-        </form>
-        <img
-          @click="validateMessage()"
-          src="../../../assets/img/send.png"
-          alt="Enviar"
-        />
+        <div v-if="hideChat" class="mobile_chat__room__text">
+          <form novalidate class>
+            <textarea
+              type="text"
+              name="message"
+              id="message"
+              v-model="form.message"
+              maxlength="100"
+              @keypress="onSendMessageKeyboard()"
+              placeholder="Mensaje rapido..."
+            ></textarea>
+          </form>
+          <img @click="validateMessage()" src="../../../assets/img/send.png" alt="Enviar" />
+        </div>
       </div>
     </div>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -118,7 +161,8 @@ export default {
       messages: [],
       hideChat: true,
       arrow: "fa-arrow-right",
-      onBottom: true
+      onBottom: true,
+      isMobile: false
     };
   },
   validations: {
@@ -187,27 +231,61 @@ export default {
         this.sendMessage();
       }
     },
+    goToClassList() {
+      this.$router.push("dashboard");
+    },
     sendMessage() {
       const message = {
         classId: "123",
         email: "text",
         text: this.form.message
       };
-      this.messages.push(message);
-      if (this.onBottom) {
-        this.scrollToBottom();
+      if (!this.isBlank(this.form.message)) {
+        this.messages.push(message);
+        if (this.onBottom) {
+          this.scrollToBottom();
+        }
+        this.clearForm();
       }
-      this.clearForm();
     },
     clearForm() {
       this.$v.$reset();
       this.form.message = null;
     },
+    isBlank(input) {
+      if (!input) {
+        return true;
+      }
+      if (input === "undefined") {
+        return true;
+      }
+      if (typeof input === "string" && input.trim() === "") {
+        return true;
+      }
+      if (typeof input === "object") {
+        if (JSON.stringify(input) === "{}") {
+          return true;
+        }
+        if (Object.keys(input).length === 0) {
+          return true;
+        }
+      }
+      return false;
+    },
     scrollToBottom() {
-      $(".chatroom__box__messages")
+      if (!this.isMobile) {
+        $(".chatroom__box__messages")
+          .stop()
+          .animate(
+            { scrollTop: $(".chatroom__box__messages")[0].scrollHeight },
+            1000
+          );
+        return;
+      }
+      $(".mobile_chat__room__messages")
         .stop()
         .animate(
-          { scrollTop: $(".chatroom__box__messages")[0].scrollHeight },
+          { scrollTop: $(".mobile_chat__room__messages")[0].scrollHeight },
           1000
         );
     },
@@ -237,12 +315,29 @@ export default {
       this.session.publish(this.publisher, err => {
         if (err) console.log(err);
       });
+    },
+    onResize() {
+      if (window.innerWidth <= 1280) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
     }
   },
   mounted() {
+    this.onResize();
+    window.addEventListener("resize", this.onResize);
+    if (!this.isMobile) {
+      window.setTimeout(() => {
+        document
+          .querySelector(".chatroom__streaming__video")
+          .appendChild(document.querySelector(".OT_publisher"));
+      }, 1);
+      return;
+    }
     window.setTimeout(() => {
       document
-        .querySelector(".chatroom__streaming__video")
+        .querySelector(".mobile_chat__video")
         .appendChild(document.querySelector(".OT_publisher"));
     }, 1);
   }
@@ -423,6 +518,202 @@ export default {
       &__data {
         width: 100%;
         padding: 0.2rem 1rem;
+        &__profile {
+          width: 3rem;
+          height: 3rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: blue;
+          border-radius: 50%;
+          font-size: 1rem;
+          font-weight: 500;
+          color: #fff;
+        }
+        &__message {
+          margin-left: 2rem;
+          margin-top: 0.5rem;
+          margin-bottom: 1rem;
+          background: #fff;
+          word-break: break-all;
+          word-wrap: break-word;
+          border-radius: 8px;
+          min-height: 3rem;
+          padding: 1rem;
+          -webkit-box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.14);
+          -moz-box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.14);
+          box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.14);
+        }
+      }
+    }
+  }
+}
+.mobile_chat {
+  .mobile_chat__room__box__messages__data {
+    padding: 0.5rem 1rem;
+  }
+  p,
+  h1 {
+    font-size: 1rem;
+    font-family: "Rubik", sans-serif;
+    font-weight: 500;
+  }
+  height: 100vh;
+  &__header {
+    width: 100%;
+    height: 10%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0rem 1rem;
+    &__profile {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 13rem;
+      justify-content: start;
+      &__avatar {
+        width: 7rem;
+        align-items: center;
+        display: flex;
+        p {
+          font-size: 0.8rem;
+          line-height: 0.9rem;
+        }
+        img {
+          height: 3rem !important;
+        }
+      }
+      &__live {
+        color: #fff;
+        font-family: "Rubik", sans-serif;
+        background-color: #c90101;
+        height: 2rem;
+        width: 5rem;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        font-weight: 500;
+      }
+    }
+    &__finalize {
+      color: #fff;
+      width: 5rem;
+      font-size: 0.8rem !important;
+      font-family: "Rubik", sans-serif;
+      background-color: #6359ff;
+      height: 2rem;
+      padding: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      font-weight: 500;
+      transition: 1s;
+      &:hover {
+        background-color: #4840bd;
+        transition: 1s;
+      }
+    }
+  }
+  &__video {
+    height: 30%;
+    background-color: #000;
+    width: 100%;
+    position: relative;
+    &__fullscreen {
+      position: absolute;
+      z-index: 1;
+      background: #fff;
+      width: 3rem;
+      bottom: 10px;
+      right: 10px;
+      display: flex;
+      height: 3rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      i {
+        font-size: 1.5rem;
+      }
+    }
+    .OT_publisher {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+  &__room {
+    width: 100%;
+    height: 60%;
+    transition: 1s;
+    background-color: #fafafa;
+    &__header {
+      height: 10%;
+      background: #ffffff;
+      border: 2px solid #f2f2f2;
+      display: flex;
+      align-items: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      i {
+        width: 20%;
+        cursor: pointer;
+        padding: 1rem;
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 0.8rem;
+        width: 80%;
+        text-align: center;
+      }
+    }
+    &__text {
+      height: 10%;
+      background: #ffffff;
+      border: 2px solid #f2f2f2;
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      form {
+        height: 100%;
+        width: 100%;
+      }
+      textarea {
+        font-size: 1rem;
+        padding-right: 5rem !important;
+        border: none;
+        width: 100%;
+        height: 100%;
+        resize: none;
+        padding: 1rem;
+      }
+      textarea:focus,
+      input:focus {
+        outline: none;
+      }
+      img {
+        height: 3rem !important;
+        right: 10px;
+        position: absolute;
+      }
+    }
+    &__messages {
+      height: 80%;
+      border-left: 2px solid #f2f2f2;
+      overflow-y: scroll;
+      background: #fafafa;
+
+      &__data {
+        width: 100%;
+        padding: 0.5rem 1rem !important;
         &__profile {
           width: 3rem;
           height: 3rem;
