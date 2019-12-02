@@ -45,7 +45,7 @@
             </div>
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('name')">
-                <label for="email">Nombre completo</label>
+                <label for="email">Nombre</label>
                 <md-input
                   type="text"
                   name="name"
@@ -122,6 +122,8 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
+import { ServiceFactory } from "../../core/services/ServiceFactory";
+const authenticationService = ServiceFactory.get("authenticationService");
 
 export default {
   name: "Signup",
@@ -164,6 +166,19 @@ export default {
     }
   },
   methods: {
+    async register() {
+      try {
+        let data = await authenticationService.register(this.form)
+        if(data.data.success == 1){
+          this.clearForm();
+          this.endLoader(true)
+        }else{
+          this.endLoader(false)
+        }
+      } catch (error) {
+        this.endLoader(false)
+      }
+    },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
 
@@ -215,12 +230,33 @@ export default {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        this.animateElements();
-        this.clearForm();
-        window.setTimeout(() => {
-          this.registerUser();
-        }, 2000);
+        this.startLoader()
+        this.register()
+        // this.animateElements();
+        // this.clearForm();
+        // this.registerUser();
+        // window.setTimeout(() => {
+        //   this.registerUser();
+        // }, 2000);
       }
+    },
+    startLoader(){
+      this.animateElementsAlone();
+      // this.clearForm();
+      this.sending = true;
+      this.loader = true;
+    },
+    async endLoader(op){
+      await window.setTimeout(() => {
+        this.Loader = false;
+        this.disableAnimations();
+        this.sending = false;
+        if(op){
+          this.$dialog.alert('Registro exitoso, ya puede iniciar sesión.', {animation: 'bounce', okText: '¡Genial!'})
+        }else{
+          this.$dialog.alert('¡Ups! Al parecer hubo un error, intenta de nuevo.', {animation: 'bounce', okText: 'Ok :('})
+        }
+      }, 2000); 
     },
     animateElements() {
       const form = document.getElementById("formRegister");
@@ -232,6 +268,18 @@ export default {
       form.classList.add("animate_dissolve");
       window.setTimeout(() => {
         content.classList.add("animate_extend");
+      }, 1100);
+    },
+    animateElementsAlone() {
+      const form = document.getElementById("formRegister");
+      // const content = document.getElementById("contentRegister");
+      const logo = document.querySelector(".logoRegister");
+      const container = document.querySelector(".roundRegister");
+      logo.classList.add("opacity");
+      container.classList.add("opacity");
+      form.classList.add("animate_dissolve");
+      window.setTimeout(() => {
+        // content.classList.add("animate_extend");
       }, 1100);
     },
     disableAnimations() {

@@ -9,8 +9,8 @@
     <div class="main__wrapper">
       <div class="main__wrapper__header">
         <img class="avatar_profile" src="../../../assets/img/girl_1.png" alt />
-        <p class="title">{{ this.form.name }}</p>
-        <p class="subtitle">{{ this.form.summary }}</p>
+        <p class="title">{{ this.userInfo.name }}</p>
+        <p class="subtitle">{{ this.userInfo.ocupation }}</p>
       </div>
       <div
         v-bind:style="{ width: !isMobile ? '50%' : '100%' }"
@@ -33,12 +33,12 @@
                 type="email"
                 name="email"
                 id="email"
-                v-model="form.email"
+                v-model="userInfo.email"
               />
-              <span class="md-error" v-if="!$v.form.email.required"
+              <span class="md-error" v-if="!$v.userInfo.email.required"
                 >El email es requerido</span
               >
-              <span class="md-error" v-else-if="!$v.form.email.minlength"
+              <span class="md-error" v-else-if="!$v.userInfo.email.minlength"
                 >Tiene que ser mayor a 3 caracteres</span
               >
             </md-field>
@@ -85,11 +85,11 @@
             </p>
             <md-field v-if="nameActive" :class="getValidationClass('name')">
               <label for="text">Nombre completo</label>
-              <md-input type="name" name="name" id="name" v-model="form.name" />
-              <span class="md-error" v-if="!$v.form.name.required"
+              <md-input type="name" name="name" id="name" v-model="userInfo.name" />
+              <span class="md-error" v-if="!$v.userInfo.name.required"
                 >El nombre completo es requerido</span
               >
-              <span class="md-error" v-else-if="!$v.form.name.minlength"
+              <span class="md-error" v-else-if="!$v.userInfo.name.minlength"
                 >Tiene que ser mayor a 3 caracteres</span
               >
             </md-field>
@@ -141,7 +141,7 @@
                 type="phone"
                 name="phone"
                 id="phone"
-                v-model="form.phone"
+                v-model="userInfo.phone"
               />
             </md-field>
           </div>
@@ -184,15 +184,15 @@
             class="center_text"
           >
             <p v-if="!summaryActive" class="information">
-              {{ this.userInfo.summary }}
+              {{ this.userInfo.ocupation }}
             </p>
             <md-field v-if="summaryActive">
               <label for="text">Ocupación</label>
               <md-input
                 type="text"
-                name="summary"
-                id="summary"
-                v-model="form.summary"
+                name="ocupation"
+                id="ocupation"
+                v-model="userInfo.ocupation"
               />
             </md-field>
           </div>
@@ -210,7 +210,7 @@
             <md-button
               :disabled="sending"
               v-if="summaryActive"
-              @click="validateUser('summary')"
+              @click="validateUser('ocupation')"
               class="btn_private md-primary"
               >Guardar</md-button
             >
@@ -235,7 +235,7 @@
             class="center_text"
           >
             <p v-if="!passwordActive" class="information">
-              {{ this.userInfo.password }}
+              {{ this.userInfo.password | outPw }}
             </p>
             <md-field
               v-if="passwordActive"
@@ -246,12 +246,12 @@
                 type="password"
                 name="password"
                 id="password"
-                v-model="form.password"
+                v-model="userInfo.password"
               />
-              <span class="md-error" v-if="!$v.form.password.required"
+              <span class="md-error" v-if="!$v.userInfo.password.required"
                 >El contraseña es requerido</span
               >
-              <span class="md-error" v-else-if="!$v.form.password.minlength"
+              <span class="md-error" v-else-if="!$v.userInfo.password.minlength"
                 >Tiene que ser mayor a 3 caracteres</span
               >
             </md-field>
@@ -263,7 +263,7 @@
             <md-button
               :disabled="sending"
               v-if="!passwordActive"
-              @click="passwordActive = true"
+              @click="changePass(true)"
               class="btn_private md-primary"
               >Actualizar</md-button
             >
@@ -277,7 +277,7 @@
             <md-button
               :disabled="sending"
               v-if="passwordActive"
-              @click="passwordActive = false"
+              @click="changePass(false)"
               class="btn_cancel md-primary"
               >Cancelar</md-button
             >
@@ -291,6 +291,8 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
+import { ServiceFactory } from "../../core/services/ServiceFactory";
+const userService = ServiceFactory.get("userService");
 
 export default {
   name: "UserProfile",
@@ -303,23 +305,17 @@ export default {
     summaryActive: false,
     isMobile: false,
     sending: false,
+    passTemp: '',
     userInfo: {
-      email: "manri725@gmail.com",
-      password: "********",
-      name: "Maria Jose Manrique Ayaro",
-      phone: "3196743065",
-      summary: ""
+      email: '',
+      password: '',
+      name: '',
+      phone: '',
+      ocupation: ""
     },
-    form: {
-      email: null,
-      password: null,
-      name: null,
-      phone: null,
-      summary: null
-    }
   }),
   validations: {
-    form: {
+    userInfo: {
       email: {
         required,
         minLength: minLength(3)
@@ -335,12 +331,16 @@ export default {
       phone: {
         required,
         minLength: minLength(3)
+      },
+      ocupation: {
+        required,
+        minLength: minLength(3)
       }
     }
   },
   methods: {
     getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
+      const field = this.$v.userInfo[fieldName];
 
       if (field) {
         return {
@@ -350,29 +350,23 @@ export default {
     },
     validateUser(inputName) {
       this.$v.$touch();
-      console.log("holis");
-      console.log(this.form.email);
       if (!this.$v.$invalid) {
         this.sending = true;
-        window.setTimeout(() => {
-          this.sending = false;
-          this.saveUser(inputName);
-        }, 2000);
+        this.updateUser(inputName)
+      }
+    },
+    changePass(op){
+      this.passwordActive = op
+      if(op){
+        this.passTemp = this.userInfo.password
+        this.userInfo.password = ''
+      }else{
+        this.userInfo.password = this.passTemp
+        this.passTemp = ''
       }
     },
     navigateTo(route) {
       this.$router.push(route);
-    },
-    saveUser(inputName) {
-      const info = {
-        name: this.form.name,
-        email: this.form.email,
-        password: this.form.password,
-        phone: this.form.phone,
-        summary: this.form.summary
-      };
-      console.log(info);
-      this.closeInput(inputName);
     },
     onResize() {
       if (window.innerWidth <= 1280) {
@@ -384,10 +378,8 @@ export default {
     truncName(name) {
       return name.truncName(10);
     },
-    back() {
-      alert("hola");
-    },
     closeInput(inputName) {
+      this.sending = false;
       switch (inputName) {
         case "email":
           this.emailActive = false;
@@ -401,9 +393,37 @@ export default {
         case "name":
           this.nameActive = false;
           break;
-        case "summary":
+        case "ocupation":
           this.summaryActive = false;
           break;
+      }
+    },
+    async user() {
+      try {
+        let data = await userService.get(this.$cookies.get('_id'))
+        if(data.data.success == 1){
+          this.userInfo = data.data.data.user
+        }else{
+          this.$router.back()
+        }
+      } catch (error) {
+        this.$router.back()
+      }
+    },
+    async updateUser(inputName) {
+      try {
+        // if(inputName == 'password') this.userInfo.password = this.passTemp
+        // console.log(this.userInfo);
+        let data = await userService.edit(this.$cookies.get('_id'), this.userInfo)
+        if(data.data.success == 1){
+          this.userInfo = data.data.data.user
+        }else{
+          this.$dialog.alert('¡Ups! Al parecer hubo un error, intente de nuevo.', {animation: 'bounce', okText: 'Ok :('})
+        }
+        this.closeInput(inputName);
+      } catch (error) {
+        this.$dialog.alert('¡Ups! Al parecer hubo un error, intente de nuevo.', {animation: 'bounce', okText: 'Ok :('})
+        this.closeInput(inputName);
       }
     }
   },
@@ -414,15 +434,16 @@ export default {
       } else {
         return text;
       }
+    },
+    outPw: function() {
+      return '*****'
     }
   },
   mounted() {
-    this.form.email = this.userInfo.email;
-    this.form.password = this.userInfo.password;
-    this.form.name = this.userInfo.name;
-    this.form.phone = this.userInfo.phone;
-    this.form.summary = this.userInfo.summary;
     this.onResize();
+  },
+  created(){
+    this.user()
   }
 };
 </script>

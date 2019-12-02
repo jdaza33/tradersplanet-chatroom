@@ -102,8 +102,8 @@ export default {
   props: ["signinRoute"],
   data: () => ({
     form: {
-      email: null,
-      password: null
+      email: '',
+      password: ''
     },
     lastUser: null,
     userSaved: false,
@@ -128,17 +128,27 @@ export default {
     }
   },
   methods: {
-    login() {
-      const user = {
-        user: "hola",
-        password: "12345"
-      };
-      authenticationService.login(user).then(
-        resp => {
-          console.log(resp);
-        },
-        error => console.log(error)
-      );
+    async login() {
+      try {
+        let data = await authenticationService.login(this.form)
+        if(data.data.success == 1){
+          this.clearForm();
+          this.endLoader(true, data.data.data)
+        }else{
+          this.endLoader(false)
+        }
+      } catch (error) {
+        this.endLoader(false)
+      }
+    },
+    saveCookies(user, token){
+      this.$cookies.set('name', user.name)
+      this.$cookies.set('lastname', user.lastname)
+      this.$cookies.set('ocupation', user.ocupation)
+      this.$cookies.set('email', user.email)
+      this.$cookies.set('role', user.role)
+      this.$cookies.set('token', token)
+      this.$cookies.set('_id', user._id)
     },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
@@ -183,12 +193,35 @@ export default {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        this.animateElements();
-        this.clearForm();
-        window.setTimeout(() => {
-          this.saveUser();
-        }, 2000);
+        this.startLoader()
+        this.login()
+        // this.animateElements();
+        // this.clearForm();
+        // window.setTimeout(() => {
+        //   this.saveUser();
+        // }, 2000);
       }
+    },
+    startLoader(){
+      this.animateElements();
+      this.sending = true;
+      this.loader = true;
+    },
+    async endLoader(op, data = null){
+      await window.setTimeout(() => {
+        this.Loader = false;
+        this.sending = false;
+        if(op){
+          this.saveCookies(data.user, data.token)
+          this.$router.push({
+            name: "dashboardClass",
+            params: { activeAnimation: true }
+          });
+        }else{
+          this.disableAnimations();
+          this.$dialog.alert('¡Ups! Al parecer hubo un error, verifique los datos e intente de nuevo.', {animation: 'bounce', okText: '¡Entendido!'})
+        }
+      }, 2000); 
     },
     moveElement() {
       if (!this.isMobile) {

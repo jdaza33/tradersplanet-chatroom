@@ -9,6 +9,12 @@ import "vue-material/dist/theme/default.css";
 import { Loader } from "./modules/shared/components/Loader";
 import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
 import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
+import VuejsDialog from 'vuejs-dialog';
+import 'vuejs-dialog/dist/vuejs-dialog.min.css';
+import VueCookies from 'vue-cookies'
+
+Vue.use(VueCookies)
+Vue.use(VuejsDialog);
 Vue.config.productionTip = false;
 Vue.use(VueMaterial);
 Vue.use(Vuelidate);
