@@ -5,7 +5,10 @@
       :md-close-on-esc="false"
       :md-active.sync="createDialog"
     >
-      <CreateClass v-bind:isMobile="isMobile" v-on:closeCreateDialog="closeCreateDialog($event)" />
+      <CreateClass
+        v-bind:isMobile="isMobile"
+        v-on:closeCreateDialog="closeCreateDialog($event)"
+      />
     </md-dialog>
     <md-dialog :md-active.sync="updateDialog">
       <EditClass
@@ -23,7 +26,9 @@
       </div>
       <div class="main__first_box">
         <p>Webinarios ({{ webinars.length }})</p>
-        <md-button @click="createDialog = true" class="btn_one md-primary">Crear Webinario</md-button>
+        <md-button @click="createDialog = true" class="btn_one md-primary"
+          >Crear Webinario</md-button
+        >
       </div>
       <div class="main__second_box">
         <table>
@@ -46,38 +51,42 @@
             <th></th>
             <th></th>
           </tr>
-          <tr v-for="item in webinars" :key="item.id" class="content">
+          <tr v-for="item in webinars" :key="item._id" class="content">
             <td class="author">
               <img src="../../../assets/img/girl.png" alt="avatar" />
               <p>
-                {{ item.author }}
+                {{ item.tutor.name }}
                 <!--
                   <br />
                 <span>CEO Traders Planet</span>-->
               </p>
             </td>
             <td>
-              <p>{{ item.className }}</p>
+              <p>{{ item.name }}</p>
             </td>
             <td>
               <p>{{ item.description }}</p>
             </td>
             <td>
-              <p>{{ item.date }}</p>
+              <p>{{ item.startDate.substring(0,10) }}</p>
             </td>
             <td>
               <md-button class="btn_private md-primary">
-                {{
-                item.channel
-                }}
+                {{ item.private ? 'private' : 'public' }}
               </md-button>
             </td>
             <td>
-              <md-button @click="goToChatroom()" class="btn_three md-primary">Unirse</md-button>
+              <md-button @click="goToChatroom()" class="btn_three md-primary"
+                >Unirse</md-button
+              >
             </td>
             <td>
               <div class="buttons">
-                <img @click="updateItem(item)" src="../../../assets/img/edit.png" alt="update" />
+                <img
+                  @click="updateItem(item)"
+                  src="../../../assets/img/edit.png"
+                  alt="update"
+                />
                 <img src="../../../assets/img/delete-button.png" alt="delete" />
               </div>
             </td>
@@ -92,35 +101,43 @@
       </p>
       <p class="main_mobile__subtitle">Webinarios ({{ webinars.length }})</p>
 
-      <md-button class="btn_one md-primary" @click="createDialog = true">Crear Webinario</md-button>
-      <div v-for="item in webinars" :key="item.id">
+      <md-button class="btn_one md-primary" @click="createDialog = true"
+        >Crear Webinario</md-button
+      >
+      <div v-for="item in webinars" :key="item._id">
         <div class="main_mobile__box">
           <div class="main_mobile__box__item_1 item">Autor</div>
-          <div class="main_mobile__box__item_2 item">{{ item.author }}</div>
+          <div class="main_mobile__box__item_2 item">{{ item.tutor.name }}</div>
 
           <div class="main_mobile__box__item_1 item">Nombre del webinario</div>
-          <div class="main_mobile__box__item_2 item">{{ item.className }}</div>
+          <div class="main_mobile__box__item_2 item">{{ item.name }}</div>
 
           <div class="main_mobile__box__item_1 item">Descripción</div>
-          <div class="main_mobile__box__item_2 item">{{ item.description }}</div>
+          <div class="main_mobile__box__item_2 item">
+            {{ item.description }}
+          </div>
 
           <div class="main_mobile__box__item_1 item">Fecha</div>
-          <div class="main_mobile__box__item_2 item">{{ item.date }}</div>
+          <div class="main_mobile__box__item_2 item">{{ item.startDate.substring(0,10) }}</div>
 
           <div class="main_mobile__box__item_1 item">Canal</div>
           <div class="main_mobile__box__item_2 item">
             <md-button class="btn_private md-primary">
-              {{
-              item.channel
-              }}
+              {{ item.private ? 'private' : 'public' }}
             </md-button>
           </div>
 
           <div class="main_mobile__box__item_1 item">
-            <md-button @click="goToChatroom()" class="btn_three md-primary">Unirse</md-button>
+            <md-button @click="goToChatroom()" class="btn_three md-primary"
+              >Unirse</md-button
+            >
           </div>
           <div class="main_mobile__box__icon item">
-            <img @click="updateItem(item)" src="../../../assets/img/edit.png" alt="update" />
+            <img
+              @click="updateItem(item)"
+              src="../../../assets/img/edit.png"
+              alt="update"
+            />
             <img src="../../../assets/img/delete-button.png" alt="delete" />
           </div>
         </div>
@@ -129,10 +146,10 @@
   </div>
 </template>
 <script>
-import CreateClass from "../components/CreateClass";
-import EditClass from "../components/EditClass";
+import CreateClass from '../components/CreateClass'
+import EditClass from '../components/EditClass'
 export default {
-  name: "Class",
+  name: 'Class',
   components: {
     CreateClass,
     EditClass
@@ -142,28 +159,28 @@ export default {
     updateDialog: false,
     selectedClass: null
   }),
-  props: ["webinars", "isMobile"],
+  props: ['webinars', 'isMobile'],
   methods: {
     updateItem(item) {
-      this.selectedClass = item;
-      this.updateDialog = true;
+      this.selectedClass = item
+      this.updateDialog = true
     },
 
     closeCreateDialog(event) {
-      this.createDialog = event;
+      this.createDialog = event
     },
     closeUpdateDialog(event) {
-      this.updateDialog = event;
+      this.updateDialog = event
     },
     goToChatroom() {
-      this.$router.push("chatroom");
+      this.$router.push('chatroom')
     }
   },
   mounted() {
-    console.log(this.webinar);
-    console.log(this.isMobile);
+    console.log(this.webinar)
+    console.log(this.isMobile)
   }
-};
+}
 </script>
 <style lang="scss">
 .root {

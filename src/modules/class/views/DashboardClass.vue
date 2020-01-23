@@ -24,35 +24,52 @@
   </div>
 </template>
 <script>
-import Class from "../components/Class";
+import Class from '../components/Class'
+import { ServiceFactory } from '../../core/services/ServiceFactory'
+const lessonService = ServiceFactory.get('lessonService')
+
 export default {
-  name: "dashboardClass",
+  name: 'dashboardClass',
   methods: {
     setInitAnimation() {
       if (this.$route.params.activeAnimation) {
         window.setTimeout(() => {
-          const container = document.querySelector(".container_dissolve");
-          container.classList.add("animate_min");
+          const container = document.querySelector('.container_dissolve')
+          container.classList.add('animate_min')
           window.setTimeout(() => {
-            this.enable = false;
-          }, 2000);
-        }, 1000);
-        return;
+            this.enable = false
+          }, 2000)
+        }, 1000)
+        return
       }
-      const container = document.querySelector(".container_dissolve");
-      container.classList.add("animate_min_fast");
-      this.enable = false;
+      const container = document.querySelector('.container_dissolve')
+      container.classList.add('animate_min_fast')
+      this.enable = false
     },
     goToProfile() {
-      this.$router.push("profile");
+      this.$router.push('profile')
     },
     onResize() {
       if (window.innerWidth <= 1280) {
-        console.log("active");
-        this.isMobile = true;
-        return;
+        console.log('active')
+        this.isMobile = true
+        return
       }
-      this.isMobile = false;
+      this.isMobile = false
+    },
+    async getClass() {
+      try {
+        let data = await lessonService.list({})
+        if (data.data.success == 1) {
+          this.webinars = data.data.data.lesson
+        } else {
+          console.log('Error interno nivel 1 al buscar clases')
+          this.webinars = []
+        }
+      } catch (error) {
+        console.log('Error interno nivel 2 al buscar clases')
+        console.log(error)
+      }
     }
   },
   components: { Class },
@@ -62,45 +79,48 @@ export default {
     webinars: [
       {
         id: 1,
-        author: "Maria Manrique",
-        className: "Mi primera clase",
-        description: "Mi descripcion",
-        date: "2019-11-15 10:41 pm",
-        channel: "private"
+        author: 'Maria Manrique',
+        className: 'Mi primera clase',
+        description: 'Mi descripcion',
+        date: '2019-11-15 10:41 pm',
+        channel: 'private'
       },
       {
         id: 2,
-        author: "Maria Manrique",
-        className: "Mi primera clase",
-        description: "Mi descripcion",
-        date: "2019-11-15 11:41 pm",
-        channel: "private"
+        author: 'Maria Manrique',
+        className: 'Mi primera clase',
+        description: 'Mi descripcion',
+        date: '2019-11-15 11:41 pm',
+        channel: 'private'
       },
       {
         id: 3,
-        author: "Maria Manrique",
-        className: "Mi primera clase",
-        description: "Mi descripcion",
-        date: "2019-11-15 12:41 pm",
-        channel: "private"
+        author: 'Maria Manrique',
+        className: 'Mi primera clase',
+        description: 'Mi descripcion',
+        date: '2019-11-15 12:41 pm',
+        channel: 'private'
       },
       {
         id: 4,
-        author: "Maria Manrique",
-        className: "Mi primera clase",
-        description: "Mi descripcion",
-        date: "2019-11-15 11:41 pm",
-        channel: "private"
+        author: 'Maria Manrique',
+        className: 'Mi primera clase',
+        description: 'Mi descripcion',
+        date: '2019-11-15 11:41 pm',
+        channel: 'private'
       }
     ]
   }),
   mounted() {
-    console.log();
-    this.onResize();
-    window.addEventListener("resize", this.onResize);
-    this.setInitAnimation();
+    console.log()
+    this.onResize()
+    window.addEventListener('resize', this.onResize)
+    this.setInitAnimation()
+  },
+  created() {
+    this.getClass()
   }
-};
+}
 </script>
 <style lang="scss">
 .md-dialog {
